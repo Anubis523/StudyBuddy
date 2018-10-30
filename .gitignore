@@ -61,4 +61,4 @@ typings/
 .next
 
 #server side keys and config info
-/backend/config/config.json
+/server/config/
