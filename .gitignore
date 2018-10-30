@@ -59,3 +59,6 @@ typings/
 
 # next.js build output
 .next
+
+#server side keys and config info
+/backend/config/config.json
