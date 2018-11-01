@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   FlashCard.associate = function(models) {
     // associations can be defined here
+    FlashCard.belongsTo(models.Deck, { foreignKey: 'deckId'})
   };
   return FlashCard;
 };
