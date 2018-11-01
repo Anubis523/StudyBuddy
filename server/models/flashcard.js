@@ -13,5 +13,13 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     FlashCard.belongsTo(models.Deck, { foreignKey: 'DeckId'})
   };
+  FlashCard.prototype.test = function(){
+    console.log(this.question);
+  };
+  FlashCard.prototype.checkAnswer = function(choiceNumber) {
+    this.timesAttempted++
+    choiceNumber === this.rightAnswer? this.timesCorrect++ : null
+    this.save()
+  };
   return FlashCard;
 };

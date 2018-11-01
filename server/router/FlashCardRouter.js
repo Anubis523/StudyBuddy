@@ -19,8 +19,14 @@ router
   })
   .get((req, res) => {
     flashCardController.show(req.params.id)
-    .then(flashCard => res.json(flashCard))
+    .then(flashCard => {
+      // flashCard.test() // instance methods work!! yay!!
+      res.json(flashCard)
+    })
   })
+  // .patch((req, res) => {
+  //   flashCardController
+  // })
   .delete((req, res) => {
     flashCardController.deleteFlashCard(req.params.id)
     .then(all => res.json(all))
