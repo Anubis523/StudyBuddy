@@ -6,11 +6,12 @@ module.exports = (sequelize, DataTypes) => {
     rightAnswer: DataTypes.INTEGER,
     type: DataTypes.STRING,
     timesCorrect: DataTypes.INTEGER,
-    timesAttempted: DataTypes.INTEGER
+    timesAttempted: DataTypes.INTEGER,
+    DeckId: DataTypes.INTEGER
   }, {});
   FlashCard.associate = function(models) {
     // associations can be defined here
-    FlashCard.belongsTo(models.Deck, { foreignKey: 'deckId'})
+    FlashCard.belongsTo(models.Deck, { foreignKey: 'DeckId'})
   };
   return FlashCard;
 };

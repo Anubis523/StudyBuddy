@@ -26,6 +26,9 @@ module.exports = {
       timesAttempted: {
         type: Sequelize.INTEGER
       },
+      DeckId: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
