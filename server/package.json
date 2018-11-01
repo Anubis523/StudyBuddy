@@ -6,16 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start-watch": "nodemon src/app.js",
-    "start": "node src/app.js",
-    "sequelize": "node_modules/.bin/sequelize"
+    "start": "node src/app.js"
   },
   "author": "Kevin D. Steele II",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "faker": "^4.1.0",
     "morgan": "^1.9.1",
-    "path": "^0.12.7",
     "pg": "^6.4.2",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.41.0",
