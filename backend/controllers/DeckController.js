@@ -28,5 +28,13 @@ const Deck = require('../models').Deck,
   getFlashCards(id){
     return Deck.findByPk(id)
     .then(deck => deck.getFlashCards())
+  },
+  editDeck(id, deckChangesObj){
+    return Deck.findByPk(id)
+    .then(preEditDeck => {
+      preEditDeck.set(deckChangesObj)
+      // *WIP: this is where you validate basically or should have written a validate into the model to begin w/ dummy!
+
+    })
   }
  }

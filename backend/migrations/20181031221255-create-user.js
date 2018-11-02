@@ -9,13 +9,30 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       username: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          isAlphanumeric: true,
+          notNull: true,
+          notEmpty: true,
+          len: [5-30]
+        }
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          isEmail: true,
+          notNull: true,
+          notEmpty: true,
+          len: [6-30]
+        }
       },
       password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          is: ["^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W+).{6,20}",' i'],
+          notNull: true,
+          notEmpty: true
+        }
       },
       createdAt: {
         allowNull: false,

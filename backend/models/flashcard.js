@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     this.timesAttempted++
     choiceNumber === this.rightAnswer? this.timesCorrect++ : null
     this.save()
+    return this
   };
   return FlashCard;
 };

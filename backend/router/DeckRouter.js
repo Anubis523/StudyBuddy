@@ -37,6 +37,10 @@ router
   })
 
 router
+  .route('/:id/edit')
+  .
+
+router
   .route('/:id')
   .all((req, res, next) => {
     next()
