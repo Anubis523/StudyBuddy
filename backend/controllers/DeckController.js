@@ -1,11 +1,19 @@
 const Deck = require('../models').Deck,
  FlashCard = require('../models').FlashCard,
-      User = require('../models').User
+      User = require('../models').User,
+Sequelize = require('sequelize')
+       Op = Sequelize.Op
 
 // remember to call them and then .then after the callback sequelize uses promises
  module.exports = {
   index(){
-    return Deck.findAll()
+    return Deck.findAll({
+      where: {
+        name: {
+          [Op.not]: "CardPool"
+        }
+      }
+    })
   },
   getUser(id){
     return Deck.findByPk(id)
@@ -28,13 +36,18 @@ const Deck = require('../models').Deck,
   getFlashCards(id){
     return Deck.findByPk(id)
     .then(deck => deck.getFlashCards())
-  },
+  }
+  ,
   editDeck(id, deckChangesObj){
     return Deck.findByPk(id)
-    .then(preEditDeck => {
-      preEditDeck.set(deckChangesObj)
-      // *WIP: this is where you validate basically or should have written a validate into the model to begin w/ dummy!
-
+    .then(editDeck => {
+      const { name, description, UserId } = deckChangesObj
+      editDeck.set({ name, description, UserId })
+      return editDeck.save() // *WIP: this is where you validate basically or should have written a validate into the model to begin w/ dummy!
     })
+  },
+  removeDeck(id){
+    return Deck.findByPk(id)
+    .then(deck => deck.destroy())
   }
  }

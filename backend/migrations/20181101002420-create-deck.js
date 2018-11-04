@@ -9,10 +9,20 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          isAlphanumeric: true,
+          notNull: true,
+          notEmpty: true,
+          len: [5-30]
+        }
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          isAlphanumeric: true,
+          notEmpty: false
+        }
       },
       UserId: {
         type: Sequelize.INTEGER

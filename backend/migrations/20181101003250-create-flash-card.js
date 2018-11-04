@@ -1,4 +1,8 @@
 'use strict';
+ /*
+ *TODO: Probably will have to refactor use the link below as reference, hooks don't play well w/ cli generated models
+ *SEE: http://docs.sequelizejs.com/manual/tutorial/associations.html#creating-with-associations 
+ */
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('FlashCards', {
