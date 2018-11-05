@@ -5,7 +5,18 @@ const User = require('../models').User,
         Op = Sequelize.Op
  module.exports = {
    index(){
-     return User.findAll()
+     return User.findAll().
+     then(users => {
+       users.forEach(user => {
+         Deck.findOrCreate({
+          where: {
+            UserId: user.id,
+            name: "CardPool"
+          }
+        })
+       })
+       return users
+     })
    },
    createDeck(deckObj, userId){
      const { name } = deckObj
@@ -28,7 +39,7 @@ const User = require('../models').User,
      .then(user => {
        Deck.findOrCreate({
         where: {
-          UserId: id,
+          UserId: user.id,
           name: "CardPool"
         }
       })
