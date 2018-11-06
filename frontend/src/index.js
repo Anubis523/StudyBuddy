@@ -11,7 +11,8 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-const store = createStore(appReducer, {currentUser:{}, currentDeck:{}, currentCard:{}}, composeEnhancer(applyMiddleware(thunk)))
+const composeAll = composeEnhancer(applyMiddleware(thunk))
+const store = createStore(appReducer, {currentUser:{}, currentDeck:{}, currentCard:{}}, composeAll())
 ReactDOM.render(
 <Provider store={store}><App /></Provider>, document.getElementById('root'));
 

@@ -5,7 +5,6 @@ export const changeUser = (id) => {
   })
     .then(user => user.json())
     .then(json =>  {
-      debugger
       return { type: 'CHANGE_USER', payload: json}
     })
 }
