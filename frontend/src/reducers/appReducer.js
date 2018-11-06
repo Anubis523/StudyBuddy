@@ -9,9 +9,8 @@ export default function appReducer(
   }, { type, payload}
 ){
   switch (type) {
+    
     case 'NEW_USER':
-      return null // add fetch to post new user by info
-
     case 'CHANGE_USER':
       return {...state, currentUser: payload}
     

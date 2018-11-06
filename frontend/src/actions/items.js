@@ -1,17 +1,20 @@
 
 export const changeUser = (id) => {
-  return fetch(`http://localhost:3001/users/${id}`, {
-    crossDomain: true
-  })
+  return (dispatch) =>  fetch(`http://localhost:3001/users/${id}`)
     .then(user => user.json())
-    .then(json =>  {
-      return { type: 'CHANGE_USER', payload: json}
-    })
+    .then(json =>  dispatch({ type: 'CHANGE_USER', payload: json}))
 }
 
-
-export const newUser = (newUser) => {
-  return {type: 'NEW_USER', payload: newUser}
+export const newUser = (userObj) => {
+  return (dispatch) => fetch('http://localhost:3001/users', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(userObj)
+  }).then(res => res.json())
+  .then(user => dispatch({type: 'NEW_USER', payload:user}))
 }
 
 export const browseUser = (otherUser) => {

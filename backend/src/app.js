@@ -1,4 +1,5 @@
   const express = require('express'), 
+           cors = require('cors'),
             app = express(),
          morgan = require('morgan'),
      bodyParser = require('body-parser'),
@@ -9,21 +10,13 @@
 flashCardRouter = require('../router/FlashCardRouter')
 
 const PORT = process.env.ENV || 3001
-  
 
+app.use(cors())
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(morgan('tiny'));
+
 app.use('/users', userRouter)
-
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials");
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
- });
-
 app.use('/decks', deckRouter)
 app.use('/flashCards', flashCardRouter)
 

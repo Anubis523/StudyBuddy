@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-export default class MainContainer extends Component{
+import React from 'react'
+export default class MainContainer extends React.Component{
   render() {
     return(
       <>

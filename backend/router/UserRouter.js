@@ -15,6 +15,7 @@ const express = require('express'),
 
   router
     .route('/')
+
     .all((req, res, next) => {
       next()
     })

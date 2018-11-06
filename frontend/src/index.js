@@ -6,13 +6,14 @@ import appReducer from './reducers/appReducer';
 
 import * as serviceWorker from './serviceWorker';
 
-import { createStore, compose, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-const composeAll = composeEnhancer(applyMiddleware(thunk))
-const store = createStore(appReducer, {currentUser:{}, currentDeck:{}, currentCard:{}}, composeAll())
+const middleWare = applyMiddleware(thunk)
+
+const store = createStore(appReducer, composeWithDevTools(middleWare))
 ReactDOM.render(
 <Provider store={store}><App /></Provider>, document.getElementById('root'));
 

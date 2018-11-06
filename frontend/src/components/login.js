@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { changeUser } from '../actions/items'
+import { Form } from 'semantic-ui-react'
+import 'semantic-ui-css/semantic.min.css'
 class Login extends Component{
 
   state = {
@@ -16,15 +18,21 @@ class Login extends Component{
   onSubmit = (evt) => {
     evt.preventDefault()
     this.props.changeUser(1)
+    this.setState({username: '', password: ''})
   }
 
   render() {
     return(
-      <form onSubmit={this.onSubmit}>
-        <input type="text" name="username" onChange={this.handleChange}/>
-        <input type="password" name="password" onChange={this.handleChange}/>
+      <Form onSubmit={this.onSubmit}>
+        <Form.Field>
+          <label>Username</label>
+          <input placeholder="username" type="text" name="username" onChange={this.handleChange} value={this.state.username}/></Form.Field>
+        <Form.Field>
+        <label>Password</label>
+          <input placeholder="password" type="password" name="password" onChange={this.handleChange} value={this.state.password}/></Form.Field>
+        
         <button value="submit">Submit</button>
-      </form>
+      </Form>
     )
   }
 }
