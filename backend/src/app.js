@@ -9,8 +9,6 @@
      deckRouter = require('../router/DeckRouter'),
 flashCardRouter = require('../router/FlashCardRouter')
 
-const PORT = process.env.ENV || 3001
-
 app.use(cors())
 app.use(bodyParser.json());
 app.use(express.static('public'));
@@ -20,4 +18,5 @@ app.use('/users', userRouter)
 app.use('/decks', deckRouter)
 app.use('/flashCards', flashCardRouter)
 
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => { console.log(`Listening on port: ${PORT}`) });
