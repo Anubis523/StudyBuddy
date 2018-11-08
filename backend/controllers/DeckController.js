@@ -48,6 +48,14 @@ Sequelize = require('sequelize')
   },
   removeDeck(id){
     return Deck.findByPk(id)
-    .then(deck => deck.destroy())
+    .then(deck => {
+      let userId = deck.UserId
+      deck.destroy()
+      return Deck.findAll({
+        where: {
+          UserId: userId
+        }
+      })
+    })
   }
  }

@@ -5,8 +5,6 @@ const express = require('express'),
   router
     .route('/') // *NOTE: does not delete the 
     .all((req, res, next) => {
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       next()
     })
     .get((req, res) => {
@@ -17,8 +15,6 @@ const express = require('express'),
   router
     .route('/:id/user')
     .all((req, res, next) => {
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       next()
     })
     .get((req, res) => {
@@ -29,8 +25,6 @@ const express = require('express'),
   router
     .route('/:id/flashCards')
     .all((req, res, next) => {
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       next()
     })
     .get((req, res) =>  {
@@ -65,7 +59,7 @@ const express = require('express'),
     })
     .delete((req, res) => {
       deckController.removeDeck(req.params.id)
-      .then(noDeck => res.json(noDeck))
+      .then(remainingDecks => res.json(remainingDecks))
     })
 
   module.exports = router

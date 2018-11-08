@@ -1,0 +1,4 @@
+.segment-scollable{
+  overflow: auto;
+  max-height: 300px;
+}

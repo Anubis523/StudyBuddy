@@ -15,7 +15,6 @@ const express = require('express'),
 
   router
     .route('/')
-
     .all((req, res, next) => {
       next()
     })
@@ -84,12 +83,8 @@ const express = require('express'),
       .then(noUser => res.json(noUser))
     })
 
-
-  
-
   module.exports = router
 /*
   *NOTE:
-  - need to refactor w/ lifecycle methods/hooks in mind, could not get them to work as of this writing with the sequelize-cli generated models,
-  in retrospect coding by hand made of quickened the process
+  Hooks work but does not do anything w/ the undefined Deck model!!
 */

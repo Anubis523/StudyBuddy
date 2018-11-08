@@ -17,7 +17,7 @@ class Login extends Component{
 
   onSubmit = (evt) => {
     evt.preventDefault()
-    this.props.changeUser(1)
+    this.props.changeUser(13)
     this.setState({username: '', password: ''})
   }
 

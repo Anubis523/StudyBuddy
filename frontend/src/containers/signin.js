@@ -1,8 +1,9 @@
 import React from 'react'
-import Login from './login'
-import Signup from './signup'
+import Login from '../components/login'
+import Signup from '../components/signup'
 import { Container, Menu, Segment } from 'semantic-ui-react'
-
+import 'semantic-ui-css/semantic.min.css'
+import '../css/segment-ui.css'
 export default class Signin extends React.Component {
   constructor(){
     super()
@@ -22,7 +23,7 @@ export default class Signin extends React.Component {
           <Menu.Item name='signup' active={activeItem === 'signup'} onClick={this.handleItemClick}/>
         </Menu>
 
-        <Segment attached='bottom'>
+        <Segment className="segment-scollable" attached='bottom'>
           <Container>
             {activeItem === 'login' && <Login/>}
             {activeItem === 'signup' && <Signup/>}
