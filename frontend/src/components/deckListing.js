@@ -40,7 +40,7 @@ class DeckListing extends React.Component {
     const { deck } = this.props
     const { listingVisible } = this.state
     return (
-      <>{listingVisible && <Segment inverted onClick={true}>
+      <>{listingVisible && <Segment inverted >
           <Container>
             <h3>{deck.name}</h3>
             <p>{deck.description}</p>
