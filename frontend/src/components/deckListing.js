@@ -35,7 +35,7 @@ class DeckListing extends React.Component {
     this.props.selectDeck(this.props.deck)
     this.props.changeTab('CARDS')
   }
-
+ //testing remote change
   render() {
     const { deck } = this.props
     const { listingVisible } = this.state
