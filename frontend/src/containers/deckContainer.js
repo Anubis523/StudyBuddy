@@ -16,21 +16,19 @@ class DeckContainer extends React.Component {
   toggleDeckFormVisiblity = () => {
     this.setState({addDeckFormVisible: !this.state.addDeckFormVisible})
   }
-
   render() {
+    // debugger
+    const deckListing = () => this.props.currentDecks.map(deck => <DeckListing key={`Deck-${deck.id}`} deck={deck}/>)
     const { addDeckFormVisible } = this.state
     return (
       <Segment >
-        <Button onClick={this.toggleDeckFormVisiblity}>Add Deck</Button>
-        {addDeckFormVisible ? <AddDeckForm/> : this.props.currentDecks.length > 0 ? decks(this.props.currentDecks) : <h3>No Decks to Speak of!!</h3>}
+        {!addDeckFormVisible && <Button onClick={this.toggleDeckFormVisiblity}>Add Deck</Button>}
+        {addDeckFormVisible ? <AddDeckForm toggleVisibility={this.toggleDeckFormVisiblity}/> : this.props.currentDecks.length > 0 ? deckListing() : <h3>No Decks to Speak of!!</h3>}
       </Segment>
     )
   }
 }
 
-const decks = (currentDecks) => {
-  return currentDecks.map(deck => <DeckListing key={`Deck-${deck.id}`} deck={deck}/>)
-}
 
 const mapStateToProps = state => {
   return { currentDecks: state.currentDecks}

@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Menu, Segment } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import { connect } from 'react-redux'
-import { getDecks, getDecksCards } from '../actions/items'
+import { getDecks, getDecksCards, changeTab } from '../actions/items'
 import DeckContainer from '../containers/deckContainer'
 import CardContainer from '../containers/cardContainer'
 
@@ -10,18 +10,15 @@ class Dashboard extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      activeItem: 'CARDS'
     }
   }
 
-  dummy = () => {console.log('make a default action creator that replaces cards info with that of cardpool')}
-
-  changeTab = (e, { name }) => {
-    const { currentUser, getDecks, getDecksCards, selectedDeck} = this.props
-    this.setState({ activeItem: name }, () => {
-      switch(this.state.activeItem) {
+  changeTab = (evt) => {
+    const { currentUser, getDecks, getDecksCards, selectedDeck, changeTab} = this.props
+    changeTab(evt.target.innerText)
+      switch(evt.target.innerText) {
         case 'CARDS':
-          selectedDeck? getDecksCards(selectedDeck.id) : this.dummy()
+          selectedDeck? getDecksCards(selectedDeck.id) : console.log('No deck selected') // to be replaced w/ user notification
           break
 
         case 'DECKS':
@@ -31,22 +28,22 @@ class Dashboard extends React.Component {
         default:
           return null
       }
-    })
   }
 
-
-
   render(){
-    const { activeItem } = this.state
+    const { activeItem } = this.props
     return(
       <Container>
         <Menu attached="top" tabular>
           <Menu.Item name='CARDS' active={activeItem === 'CARDS'} onClick={this.changeTab}/>
           <Menu.Item name='DECKS' active={activeItem === 'DECKS'} onClick={this.changeTab}/>
+          <Menu.Item name='REVIEW' active={activeItem === 'REVIEW'} onClick={this.changeTab}/>
+          <Menu.Item name='BROWSE' active={activeItem === 'BROWSE'} onClick={this.changeTab}/>
+
         </Menu>
         <Segment>
-          {activeItem === 'CARDS'&& <CardContainer/>}
-          {activeItem === 'DECKS'&& <DeckContainer/>}
+          {activeItem === 'CARDS'&& <CardContainer />}
+          {activeItem === 'DECKS'&& <DeckContainer />}
         </Segment>
       </Container>
     )
@@ -54,13 +51,18 @@ class Dashboard extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { authed: state.isAuthed, currentUser: state.currentUser, selectedDeck: state.selectedDeck}
+  return { 
+    authed: state.isAuthed, 
+    currentUser: state.currentUser, 
+    selectedDeck: state.selectedDeck,
+    activeItem: state.activeItem
+  }
 }
-//return {changeUser: (id) => dispatch(changeUser(id))}
 const mapDispatchToProps = dispatch => {
   return { 
     getDecks: (id) => dispatch(getDecks(id)),
-    getDecksCards: (deckId) => dispatch(getDecksCards(deckId))
+    getDecksCards: (deckId) => dispatch(getDecksCards(deckId)),
+    changeTab: (tabName) => dispatch(changeTab(tabName))
    }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

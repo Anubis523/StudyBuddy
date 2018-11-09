@@ -3,6 +3,7 @@ export default function appReducer(
     currentUser: {},
     isAuthed: false,
     // browsingUser: {},
+    activeItem: 'CARDS',
     selectedDeck: {},
     currentDecks: [],
     currentCards: [],
@@ -17,8 +18,19 @@ export default function appReducer(
     case 'CHANGE_USER':
       return {...state, currentUser: payload, isAuthed: true}
     
-    case 'LOG_OFF':
-      return {...state, currentUser: {}, isAuthed: false}
+    case 'LOG_OFF': // needs to be revised with auth
+      return {...state, currentUser: {},
+      isAuthed: false,
+      activeItem: 'CARDS',
+      selectedDeck: {},
+      currentDecks: [],
+      currentCards: [],
+      browsingDeck: {},
+      browsingCard: {},
+      selectedCard: {}}
+    
+    case 'CHANGE_TAB':
+      return {...state, activeItem: payload}
 
     // case 'BROWSE_USER':
     //   return {...state, browingUser: payload}  
@@ -40,14 +52,14 @@ export default function appReducer(
       return {...state, currentDecks: payload}  
 
     case 'ADD_DECK':
-      let currentDeckClone = [...state.currentDecks].push(payload)
+      let currentDeckClone = [...state.currentDecks, payload]
       return {...state, currentDecks: currentDeckClone}
     
     case 'DELETE_DECK':
-      return {...state, currentDecks: payload}
+      return state
 
     case 'ADD_CARD':
-      let currentCardsClone = [...state.currentCards].push(payload)
+      let currentCardsClone = [...state.currentCards, payload]
       return {...state, currentCards: currentCardsClone}
 
     default:

@@ -36,8 +36,8 @@ export const editDeck = (editDeck) =>{
   }
 }
 
-export const selectDeck = (deck) => {
-  return (dispatch) => dispatch({type: 'SELECT_DECK', payload: deck})
+export const selectDeck = (deckId) => {
+  return (dispatch) => dispatch({type: 'SELECT_DECK', payload: deckId})
 }
 
 export const getDecksCards = (deckId) => {
@@ -78,8 +78,7 @@ export const removeDeck = (deckId) => {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     }
-  }).then(res => res.json())
-  .then(remainingDecks => {dispatch({type:'DELETE_DECK', payload: remainingDecks})})
+  }).then(dispatch({type:'DELETE_DECK', payload: null}))
 }
 
 export const addCard = (deckId, cardBody) => {
@@ -89,9 +88,13 @@ export const addCard = (deckId, cardBody) => {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     },
-    body: JSON.stringify(cardBody) //must be in {flashCard: {}} form !!
+    body: JSON.stringify(cardBody)
   }).then(res => res.json())
   .then(newCard => dispatch({type: 'ADD_CARD', payload: newCard}))
+}
+
+export const changeTab = (tabName) => {
+  return (dispatch) => dispatch({type: 'CHANGE_TAB', payload: tabName})
 }
 
 //Needs to get all the cards a user has, thus card pool
