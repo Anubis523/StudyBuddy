@@ -4,7 +4,9 @@ import { Container, Menu, Segment, Button } from 'semantic-ui-react'
 import Card from '../components/card'
 import CardForm from '../components/forms/cardForm'
 import EditCardForm from '../components/forms/editCardForm'
+import CardFormContainer from './cardFormContainer'
 import { addCard, getDecksCards } from '../actions/items'
+// import MultipleChoiceForm from '../components/forms/multipleChoiceForm'
 
 class CardContainer extends React.Component {
   state = {
@@ -74,19 +76,23 @@ class CardContainer extends React.Component {
   }
 
   handleAddCardButtonClick = (evt) => {
+    this.setValuesNull()
     this.setState({addCardFormVisible: !this.state.addCardFormVisible})
     this.props.getDecksCards(this.props.selectedDeck)
   }
 
-  toggleFormVisibility = () => {
+  toggleAddFormVisibility = () => {
     this.setState({addCardFormVisible: !this.state.addCardFormVisible}, 
       () => {
-          if(!this.state.addCardFormVisible) {
-            this.setValuesNull()
-          }
+        if(!this.state.addCardFormVisible) {
+          this.setValuesNull()
         }
-      )
-    
+    })
+  }
+
+  toggleEditFormVisibility = () => {
+    this.setState({editCardFormVisible: !this.state.editCardFormVisible}, 
+      () => {this.setState({addCardFormVisible: !this.state.addCardFormVisible})})
   }
 
   handleSubmit = (evt) => {
@@ -109,21 +115,28 @@ class CardContainer extends React.Component {
     }
     this.props.addCard(this.props.selectedDeck.id, {flashCard: {type, question, rightAnswer, answers}})
     this.props.getDecksCards(this.props.selectedDeck.id)
-    this.toggleFormVisibility()
+    this.toggleAddFormVisibility()
+  }
+
+  handleEditSubmit = evt => {
+    debugger
+    console.log('testing')
   }
 
   render(){
-    const flashCards =  this.props.currentCards.map(card => <Card key={`Card-${card.id}`} card={card} />)
+    const flashCards =  this.props.currentCards.map(card => <Card key={`Card-${card.id}`} card={card} handleEditToggle={this.toggleEditFormVisibility}/>)
 
-    const { addCardFormVisible } = this.state
-    const { selectedDeck, selectedCard } = this.props
+    const { addCardFormVisible, editCardFormVisible } = this.state
+    const { selectedDeck } = this.props
     let visibleButton = (Object.values(selectedDeck).length  > 0 )
-    return (
+    
+    return (<>
+    <CardFormContainer/>
       <Segment>
-        { visibleButton && !addCardFormVisible && <Button color='blue' onClick={this.handleAddCardButtonClick}>Add Card</Button>}
-        {addCardFormVisible 
+        { visibleButton && !addCardFormVisible  && <Button color='blue' onClick={this.handleAddCardButtonClick}>Add Card</Button>}
+        {addCardFormVisible && !editCardFormVisible
           ? <CardForm 
-          toggleVisibility={this.toggleFormVisibility}
+          toggleVisibility={this.toggleAddFormVisibility}
           handleTypeChange = {this.handleTypeChange}
           handleInputChange={this.handleInputChange}
           handleRightAnswerChange={this.handleRightAnswerChange}
@@ -133,16 +146,25 @@ class CardContainer extends React.Component {
           /> 
           :  flashCards
         }
-        {addCardFormVisible && <EditCardForm/>}
+        { editCardFormVisible &&
+          <EditCardForm
+          toggleVisibility={this.toggleEditFormVisibility}
+          handleTypeChange = {this.handleTypeChange}
+          handleInputChange={this.handleInputChange}
+          handleRightAnswerChange={this.handleRightAnswerChange}
+          handleSubmit={this.handleEditSubmit}
+          answerCount={this.answerCount()}
+          />
+          }
       </Segment>
-  )}
+  </>)}
 }
 
 const mapStateToProps = state =>  {
   return { 
-    currentCards: state.currentCards,
-    selectedDeck: state.selectedDeck,
-    selectedCard: state.selectedCard
+    currentCards: state.base.currentCards,
+    selectedDeck: state.base.selectedDeck,
+    selectedCard: state.base.selectedCard
   }
 }
 

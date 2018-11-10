@@ -31,7 +31,7 @@ class DeckContainer extends React.Component {
 
 
 const mapStateToProps = state => {
-  return { currentDecks: state.currentDecks}
+  return { currentDecks: state.base.currentDecks}
 }
 
 const mapDispatchToProps = dispatch => {

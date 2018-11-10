@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import appReducer from './reducers/appReducer';
-
+import cardFormReducer from './reducers/cardFormReducer'
 import * as serviceWorker from './serviceWorker';
 
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -14,7 +14,12 @@ import { BrowserRouter as Router, Route} from 'react-router-dom'
 
 const middleWare = applyMiddleware(thunk)
 
-const store = createStore(appReducer, composeWithDevTools(middleWare))
+const rootReducer = combineReducers({
+  base: appReducer,
+  cardForm: cardFormReducer
+})
+
+const store = createStore(rootReducer, composeWithDevTools(middleWare))
 ReactDOM.render(
 <Provider store={store}>
   <Router>

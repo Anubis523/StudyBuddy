@@ -52,10 +52,10 @@ class Dashboard extends React.Component {
 
 const mapStateToProps = state => {
   return { 
-    authed: state.isAuthed, 
-    currentUser: state.currentUser, 
-    selectedDeck: state.selectedDeck,
-    activeItem: state.activeItem
+    authed: state.base.isAuthed, 
+    currentUser: state.base.currentUser, 
+    selectedDeck: state.base.selectedDeck,
+    activeItem: state.base.activeItem
   }
 }
 const mapDispatchToProps = dispatch => {

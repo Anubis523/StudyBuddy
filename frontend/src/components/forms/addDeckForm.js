@@ -56,7 +56,7 @@ class AddDeckForm extends Component {
   }
 }
 const mapStateToProps = state => {
-  return {currentUser: state.currentUser}
+  return {currentUser: state.base.currentUser}
 }
 
 const mapDispatchToProps = dispatch => {

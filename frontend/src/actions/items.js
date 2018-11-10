@@ -99,6 +99,12 @@ export const selectCard = (cardId) => {
   .then(selectedCard => dispatch({type: 'SELECT_CARD', payload: selectedCard}))
 }
 
+export const changeCardForm = (cardId) => {
+  return (dispatch) => fetch(`${BaseURL}/flashCards/${cardId}`)
+  .then(res => res.json())
+  .then(selectedCard => dispatch({type: 'SELECTED_CARD_FORM', payload: selectedCard}))
+}
+ 
 export const editCard = (cardId, cardBody) => {
   return (dispatch) => fetch(`${BaseURL}/flashCards/${cardId}`, {
     method: 'PATCH',

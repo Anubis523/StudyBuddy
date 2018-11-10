@@ -1,17 +1,16 @@
-export default function appReducer(
-  state = {
-    currentUser: {},
-    isAuthed: false,
-    // browsingUser: {},
-    activeItem: 'CARDS',
-    selectedDeck: {},
-    currentDecks: [],
-    currentCards: [],
-    browsingDeck: {},
-    browsingCard: {},
-    selectedCard: {}
-  }, { type, payload}
-){
+const initialState = {
+  currentUser: {},
+  isAuthed: false,
+  activeItem: 'CARDS',
+  selectedDeck: {},
+  currentDecks: [],
+  currentCards: [],
+  browsingDeck: {},
+  browsingCard: {},
+  selectedCard: {}
+}
+
+const appReducer = (state = initialState, { type, payload}) => {
   switch (type) {
     
     case 'NEW_USER':
@@ -32,9 +31,6 @@ export default function appReducer(
     case 'CHANGE_TAB':
       return {...state, activeItem: payload}
 
-    // case 'BROWSE_USER':
-    //   return {...state, browingUser: payload}  
-
     case 'GET_DECK_CARDS':
       return {...state, currentCards: payload}
 
@@ -42,7 +38,6 @@ export default function appReducer(
       return {...state, browsingDeck: payload}
 
     case 'SELECT_DECK':
-    case 'EDIT_DECK':
       return {...state, selectedDeck: payload}
 
     case 'GET_CARD_POOL':
@@ -72,3 +67,5 @@ export default function appReducer(
       return state
   }
 }
+
+export default appReducer
