@@ -36,17 +36,17 @@ class AddDeckForm extends Component {
 
 
   render(){
-    const { name } = this.state
+    const { name, description } = this.state
     return(
       <Segment inverted>
         <Form inverted onSubmit={this.handleSubmit}>
           <Form.Field>
             <label>Deck Name:</label>
-            <input name='name' onChange={this.handleInputChange} type='text'placeholder='Super Awesome Deck'/>
+            <input name='name' value={name} onChange={this.handleInputChange} type='text'placeholder='Super Awesome Deck'/>
           </Form.Field>
           <Form.Field>
             <label>Deck Description:</label>
-            <input name='description' onChange={this.handleInputChange} type='text'placeholder='description...'/>
+            <input name='description' value={description} onChange={this.handleInputChange} type='text'placeholder='description...'/>
           </Form.Field>
           <Button disabled={name.length < 1} color='blue' value='submit'>Submit</Button>
           <Button color='pink' onClick={this.handleCancel}>Cancel</Button>

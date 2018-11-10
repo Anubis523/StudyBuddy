@@ -16,11 +16,13 @@ module.exports = {
     return FlashCard.findByPk(id)
     .then(flashCard => flashCard.checkAnswer(answerIndex))
     .then(edittedFlashCard => res.json(edittedFlashCard))
+  },
+  editCard(id, cardBody){
+    return FlashCard.findByPk(id)
+    .then(
+      editFlashCard => {
+      editFlashCard.update(cardBody)
+      return editFlashCard.save()}
+    )
   }
-  // ,
-  // editFlashCard(id, cardCorrectionObj){
-  //   // *TODO: add logic/etc for editting an alread made flashcard
-  //   return FlashCard.findByPk(id)
-  //   .then(flashCard => )
-  // }
 }

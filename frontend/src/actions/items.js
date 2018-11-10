@@ -93,12 +93,24 @@ export const addCard = (deckId, cardBody) => {
   .then(newCard => dispatch({type: 'ADD_CARD', payload: newCard}))
 }
 
+export const selectCard = (cardId) => {
+  return (dispatch) => fetch(`${BaseURL}/flashCards/${cardId}`)
+  .then(res => res.json())
+  .then(selectedCard => dispatch({type: 'SELECT_CARD', payload: selectedCard}))
+}
+
+export const editCard = (cardId, cardBody) => {
+  return (dispatch) => fetch(`${BaseURL}/flashCards/${cardId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(cardBody)
+  }).then(res => res.json())
+  .then(editedCard => dispatch({type: 'EDIT_CARD', payload: editedCard}))
+}
+
 export const changeTab = (tabName) => {
   return (dispatch) => dispatch({type: 'CHANGE_TAB', payload: tabName})
 }
-
-//Needs to get all the cards a user has, thus card pool
-// export const getCardPool = (id) => {
-  // return (dispatch) => fetch(`http://localhost:3001/users/${id}`)
-// }
-

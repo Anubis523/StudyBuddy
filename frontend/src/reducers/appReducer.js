@@ -55,12 +55,18 @@ export default function appReducer(
       let currentDeckClone = [...state.currentDecks, payload]
       return {...state, currentDecks: currentDeckClone}
     
+    case 'EDIT_CARD':
+      return{...state, selectedCard: payload}
+    
     case 'DELETE_DECK':
       return state
 
     case 'ADD_CARD':
       let currentCardsClone = [...state.currentCards, payload]
       return {...state, currentCards: currentCardsClone}
+
+    case 'SELECT_CARD':
+      return {...state, selectedCard: payload}
 
     default:
       return state

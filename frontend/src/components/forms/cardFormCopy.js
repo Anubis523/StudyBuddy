@@ -1,22 +1,21 @@
 import { connect } from 'react-redux'
-import { Radio, Button, Segment, Divider, Dropdown, Form} from 'semantic-ui-react'
+import { Radio, Button, Segment, Divider, Dropdown, Form, Grid} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import React, { Component } from 'react'
 import { addCard, getDecksCards } from '../../actions/items'
-
-class AddCardForm extends Component {
+// just delete the 'Copy' part where class is declared and where it's exported incase of SNAFU
+class CardFormCopy extends Component {
   constructor(props){
     super(props)
-    this.state = {
-      rightAnswer: '',
-      type: null,
-      'multi-0': '',
-      'multi-1': '',
-      'multi-2': '',
-      'multi-3': '',
-      question: ''
-    }
-    this.initialState = {...this.state}
+      this.state = {
+        rightAnswer: '',
+        type: null,
+        'multi-0': '',
+        'multi-1': '',
+        'multi-2': '',
+        'multi-3': '',
+        question: ''
+      }
   }
 
   handleInputChange = (evt) => {
@@ -26,10 +25,23 @@ class AddCardForm extends Component {
 
   handleSelectChange = (evt) => {
     evt.preventDefault()
-    this.setState({type: evt.target.parentElement.textContent})
+    let textContent = evt.target.parentElement.textContent
+    let newState = ''
+    switch(textContent) {
+      case 'Fill in the Blank':
+      case 'True or False':
+      case 'Multiple Choice':
+        newState = textContent
+        break
+
+      default:
+        break
+    }
+    this.setState({type: newState})
   }
 
   handleRadioChange = (evt) => {
+    evt.preventDefault()
     let rightAnswer = evt.target.parentElement.getElementsByTagName('input')[0].value
     this.setState({ rightAnswer })
   }
@@ -41,7 +53,7 @@ class AddCardForm extends Component {
     
     console.log('submitted')
     const { type, question } = this.state
-    let rightAnswer = parseInt(this.state.rightAnswer)
+    let rightAnswer = parseInt(this.state.rightAnswer) // starts out as a string needed parsing
 
     if (type === 'Multiple Choice'){
       for (let i = 0; i < 4; i++) {
@@ -50,16 +62,12 @@ class AddCardForm extends Component {
     } else if ( type === 'True or False') {
       answers.push(this.state['multi-0'])
       answers.push(this.state['multi-1'])
-    } else if ( type === 'Fill In The Blank') {
+    } else if ( type === 'Fill in the Blank') {
       answers.push(this.state['multi-0'])
     }
     this.props.addCard(this.props.selectedDeck.id, {flashCard: {type, question, rightAnswer, answers}})
     this.props.getDecksCards(this.props.selectedDeck.id)
     this.props.toggleVisibility()
-  }
-
-  resetInputs = (evt) => {
-    // logic for resetting all of the input fields
   }
 
   multipleChoice = () =>{ 
@@ -69,6 +77,11 @@ class AddCardForm extends Component {
       answers.push(<Form.TextArea label={`Answer# ${i+1}`} key={`multi-${i}`} name={`multi-${i}`} placeholder={`answer-${i}`} onChange={this.handleInputChange}/>)
     }
     return answers
+  } 
+
+  handleTypeChange = (evt) => {
+    evt.preventDefault()
+    this.setState({type: evt.target.textContent})
   }
 
   render() {
@@ -106,18 +119,28 @@ class AddCardForm extends Component {
       <Segment inverted>
         <Form inverted onSubmit={this.handleSubmit}>
           <Form.Field>
-            <Dropdown onChange={this.handleSelectChange} options={types}/>
+            <Grid columns={3}>
+              <Grid.Column>
+                <Radio label="Multiple Choice" name='type' checked={type === 'Multiple Choice'} value={'Multiple Choice'} onChange={this.handleTypeChange} />
+              </Grid.Column>
+              <Grid.Column>
+                <Radio label="True or False" name='type' checked={type === 'True or False'} value={'True or False'} onChange={this.handleTypeChange} />
+              </Grid.Column>
+              <Grid.Column>
+                <Radio label="Fill in the Blank" name='type' checked={type === 'Fill in the Blank'} value={'Fill in the Blank'} onChange={this.handleTypeChange} />
+              </Grid.Column>
+            </Grid>
           </Form.Field>
-          {type !== null && <Form.Field>
+          {!!type && <Form.Field>
             <Form.TextArea label='Question' name='question' onChange={this.handleInputChange} />
           </Form.Field>}
           {type === 'Multiple Choice'
             ? multipleChoiceAnswers
             : type === 'True or False'
                 ? <div>True or False Option</div>
-                : type === 'Fill In The Blank'
+                : type === 'Fill in the Blank'
                   ? <di>Fill in the Blank Options</di>
-                  : <div>No type chosen</div>}
+                  : <div>No flashcard type chosen. Please select to continue.</div>}
           <Form.Group>
             <Button disabled={rightAnswer.length < 1} color='blue' value='submit'>Submit Question</Button>
             <Button color='pink' onClick={this.props.toggleVisibility} >Cancel</Button>
@@ -128,11 +151,6 @@ class AddCardForm extends Component {
   }
 }
 
-const types = [
-  {key:'multipleChoice', value:'multipleChoice', text:'Multiple Choice'}, 
-  {key:'trueOrFalse', value:'trueOrFalse', text:'True or False'}, 
-  {key:'fillInTheBlank', value:'fillInTheBlank', text:'Fill In The Blank'}]
-
 const mapDispatchToProps = dispatch => {
   return { 
     addCard: (deckId, cardBody) => dispatch(addCard(deckId, cardBody)),
@@ -141,7 +159,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => {
-  return { selectedDeck: state.selectedDeck }
+  return { flashCard: state.selectedCard }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddCardForm)
+export default connect(mapStateToProps, mapDispatchToProps)(CardFormCopy)

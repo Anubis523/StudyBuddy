@@ -20,13 +20,13 @@ router
   .get((req, res) => {
     flashCardController.show(req.params.id)
     .then(flashCard => {
-      // flashCard.test() // instance methods work!! yay!!
       res.json(flashCard)
     })
   })
-  // .patch((req, res) => {
-  //   flashCardController
-  // })
+  .patch((req, res) => {
+    flashCardController.editCard(req.params.id, req.body.flashCard)
+    .then(card => res.json(card))
+  })
   .delete((req, res) => {
     flashCardController.deleteFlashCard(req.params.id)
     .then(all => res.json(all))

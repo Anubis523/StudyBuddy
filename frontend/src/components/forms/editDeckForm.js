@@ -4,6 +4,27 @@ import 'semantic-ui-css/semantic.min.css'
 import React, { Component } from 'react'
 
 class EditDeckForm extends Component {
+  state = {
+    name: this.props.selectedDeck.name,
+    description: this.props.selectedDeck.description
+  }
 
+  handleChange = (evt) => {
+    evt.preventDefault()
+    this.setState()
+  }
+
+  render() {
+    return(<></>)
+  }
 }
-export default connect(mapStateToProps.)
+
+const mapStateToProps = state => {
+  return {selectedDeck: state.selectedDeck}
+}
+
+const mapDispatchToProps = dispatch => {
+  return {/*object with key  */}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditDeckForm)
