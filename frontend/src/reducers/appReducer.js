@@ -60,6 +60,9 @@ const appReducer = (state = initialState, { type, payload}) => {
     case 'DELETE_DECK':
       return state
 
+    case 'DELETE_CARD':
+      return {...state, currentCards: payload }
+
     case 'ADD_CARD':
       let currentCardsClone = [...state.currentCards, payload]
       return {...state, currentCards: currentCardsClone}

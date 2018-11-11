@@ -1,24 +1,24 @@
 import React from 'react'
 import { connect } from 'react-redux'
 // eslint-disable-next-line
-import { Container, Menu, Segment, Button } from 'semantic-ui-react'
+import { Segment, Button } from 'semantic-ui-react'
 import Card from '../components/card'
 import CardFormContainer from './cardFormContainer'
-import { getDecksCards } from '../actions/items'
+import { getDecksCards, changeFormMode } from '../actions/items'
 import { addCard } from '../actions/cardFormActions'
-// import MultipleChoiceForm from '../components/forms/multipleChoiceForm'
 
 class CardContainer extends React.Component {
   state = {
-    formMode: ''
+    hideForm: true
   }
 
   hideForm = () => {
     this.setState({ hideForm: !this.state.hideForm})
   }
-  
+
   handleAddCardButtonClick = (evt) => {
     this.setState({ hideForm: false })
+    this.props.changeFormMode('CREATE')
   }
 
   render(){
@@ -47,7 +47,8 @@ const mapStateToProps = state =>  {
 const mapDispatchToProps = dispatch => {
   return {
     getDecksCards: (deckId) => dispatch(getDecksCards(deckId)),
-    addCard: (deckId, cardBody) => dispatch(addCard(deckId, cardBody))
+    addCard: (deckId, cardBody) => dispatch(addCard(deckId, cardBody)),
+    changeFormMode: (mode) => dispatch(changeFormMode(mode))
   }
 }
 

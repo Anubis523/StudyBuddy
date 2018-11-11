@@ -9,8 +9,15 @@ module.exports = {
   },
   deleteFlashCard(id){
     return FlashCard.findByPk(id)
-    .then(flashCard => flashCard.destroy())
-    .then(nil => FlashCard.findAll())
+    .then(flashCard => {
+      let deckId = flashCard.DeckId
+      flashCard.destroy()
+      return deckId
+    }).then(deckID => FlashCard.findAll({
+      where: {
+        DeckId: deckID
+      }
+    }))
   },
   checkIfCorrect(id, answerIndex){ // not yet tested do it!!
     return FlashCard.findByPk(id)

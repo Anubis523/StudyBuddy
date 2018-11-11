@@ -12,12 +12,10 @@ const TrueOrFalseAnswersForm = props => {
       : `${rightAnswer === 0 ? 'True' : 'False'} chosen as the correct answer.`
     }</label><br/>
     <Button.Group>
-      <Button color='green' name='true' onClick={(evt) => {handleTrueFalse(evt, props)}} >True</Button>
-      <Button.Or/>
-      <Button negative={true} color='red' name='false' onClick={(evt) => {handleTrueFalse(evt, props)}}>False</Button>
+      <Button type='button' color='green' name='true' onClick={(evt) => {handleTrueFalse(evt, props)}} >True</Button>
+      <Button type='button' color='red' name='false' onClick={(evt) => {handleTrueFalse(evt, props)}}>False</Button>
     </Button.Group>
     <Divider hidden={true}/>
-
   </>)
 }
 

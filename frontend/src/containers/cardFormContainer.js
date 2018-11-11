@@ -3,6 +3,8 @@ import { Radio, Button, Segment, Form, Grid} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import React from 'react'
 import { changeType, resetForm, changeAnswerOne, changeAnswerTwo, changeRightAnswer } from '../actions/cardFormActions'
+import * as base from '../actions/items'
+import * as cardActions from '../actions/cardActions'
 
 import QuestionForm from '../components/forms/questionForm'
 import BlankAnswersForm from '../components/forms/blankAnswersForm'
@@ -13,36 +15,38 @@ class CardFormContainer extends React.Component {
 
   handleSubmit = (evt) => {
     evt.preventDefault()
-    // need logic that based on what kind of event either adds a card or updates an existing one, then it should clear the form
-    console.log('submit handled')
+    const { formMode, selectedCard, selectedDeck, addCard, editCard } = this.props
+    if ( formMode === 'CREATE') {
+      addCard(selectedDeck.id, selectedCard)
+    } else if (formMode === 'EDIT'){
+      editCard(selectedCard.id, selectedCard)
+    }
+    this.handleCancel()
   }
 
   handleTypeChange = (evt) => {
     evt.preventDefault()
+    const { formMode } = this.props
     if (this.props.type === 'Fill in the Blank'){
       this.props.changeRightAnswer(0)
+    } else if (this.props.type === 'True or False') {
+      this.props.changeAnswerOne('True')
+      this.props.changeAnswerTwo('False')
     }
     // needs logic that resets the form on each change
     if (this.props.type !== evt.target.innerText){
       this.props.resetForm()
       this.props.changeType(evt.target.innerText)
-      switch (this.props.type) {
-
-        case 'True or False':
-          this.props.changeAnswerOne('True')
-          this.props.changeAnswerTwo('False')
-          break;
-      
-        default:
-          break;
+      if (formMode === 'EDIT') {
+       this.props.changeFormMode('') 
       }
     }
-    
   }
 
   handleCancel = () => {
     this.props.resetForm()
     this.props.hideForm()
+    this.props.changeFormMode('')
   }
 
   submissionIsDisabled = () => {
@@ -63,15 +67,13 @@ class CardFormContainer extends React.Component {
           break
           
         case 'True or False':
-          isDisabled = false
+          isDisabled = answerCount === 2 ? false : true
           break
 
         default:
           break
       }
     }
-
-    
     return isDisabled
   }
 
@@ -110,16 +112,23 @@ class CardFormContainer extends React.Component {
 
 
 const mapStateToProps = state => {
-  return { selectedCard: state.cardForm}
+  return { 
+    selectedCard: state.cardForm,
+    formMode: state.base.formMode,
+    selectedDeck: state.base.selectedDeck
+  }
 }
 
 const mapDispatchToProps = dispatch => {
   return { 
+    addCard: (deckId, cardBody) => {dispatch(cardActions.addCard(deckId, cardBody))},
+    editCard: (cardId, cardBody) => {dispatch(cardActions.editCard(cardId, cardBody))},
     changeType: (type) => dispatch(changeType(type)),
     resetForm: () => dispatch(resetForm()),
     changeAnswerOne: (answer) => dispatch(changeAnswerOne(answer)),
     changeAnswerTwo: (answer) => dispatch(changeAnswerTwo(answer)),
-    changeRightAnswer: (rightAnswer) => dispatch(changeRightAnswer(parseInt(rightAnswer))) 
+    changeRightAnswer: (rightAnswer) => dispatch(changeRightAnswer(parseInt(rightAnswer))),
+    changeFormMode: (mode) => dispatch(base.changeFormMode(mode))
   }
 }
 

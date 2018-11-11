@@ -22,18 +22,6 @@ export const changeCardForm = (cardId) => {
   .then(res => res.json())
   .then(selectedCard => dispatch({type: 'SELECTED_CARD_FORM', payload: selectedCard}))
 }
- 
-export const editCard = (cardId, cardBody) => {
-  return (dispatch) => fetch(`${BaseURL}/flashCards/${cardId}`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    body: JSON.stringify(cardBody)
-  }).then(res => res.json())
-  .then(editedCard => dispatch({type: 'EDIT_CARD', payload: editedCard}))
-}
 
 export const changeAnswerOne = (answer) => {
   return (dispatch) => dispatch({type: 'CHANGE_ANSWER_ONE', payload: answer})
