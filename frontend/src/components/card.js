@@ -1,11 +1,11 @@
 import React from 'react'
-import { Container, Menu, Segment, Button } from 'semantic-ui-react'
+// eslint-disable-next-line
+import { Segment, Button } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import { connect } from 'react-redux'
-import { selectCard, changeCardForm } from '../actions/items'
-// import { getDecks } from '../actions/items'
+import { selectCard, changeCardForm } from '../actions/cardFormActions'
 const Card = (props) => {
-  // debugger
+  // eslint-disable-next-line
   const { question, id } = props.card
   return(
     <Segment inverted>
@@ -21,6 +21,7 @@ const Card = (props) => {
 const handleEditToggle = (evt, props) => {
   props.selectCard(props.card.id)
   props.changeCardForm(props.card.id)
+  props.hideForm()
 }
 
 const mapStateToProps = state => {

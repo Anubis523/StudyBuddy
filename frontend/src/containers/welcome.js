@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { logOff } from '../actions/items'
+import { resetForm } from '../actions/cardFormActions'
 import { Container, Menu, MenuItem, Button } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import Dashboard from './dashboard'
@@ -17,11 +18,16 @@ const Welcome = (props) => {
       </Menu>
       <Container>
         <Dashboard/>
-        <Button onClick={props.logOff}>LogOff</Button>
+        <Button onClick={()=>{resetEverything(props)}}>LogOff</Button>
       </Container>
     </>
   
   )
+}
+
+const resetEverything = props => {
+  props.logOff()
+  props.resetForm()
 }
 
 const mapStateToProps = (state) => {
@@ -29,7 +35,10 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => {
-  return {logOff: () => dispatch(logOff())}
+  return {
+    logOff: () => dispatch(logOff()),
+    resetForm: () => dispatch(resetForm())
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Welcome)

@@ -7,11 +7,15 @@ const initialState = {
   currentCards: [],
   browsingDeck: {},
   browsingCard: {},
-  selectedCard: {}
+  selectedCard: {},
+  formMode: ''
 }
 
 const appReducer = (state = initialState, { type, payload}) => {
   switch (type) {
+
+    case 'CHANGE_FORM_MODE':
+      return {...state, formMode: payload}
     
     case 'NEW_USER':
     case 'CHANGE_USER':

@@ -21,14 +21,6 @@ export const logOff = () => {
   return (dispatch) => dispatch({type: 'LOG_OFF', payload: null})
 }
 
-// *NOTE: corresponding reducer and state are also commented out
-// export const browseUser = (otherUser) => {
-//   return {
-//     type: 'BROWSE_USER',
-//     payload: otherUser
-//   }
-// }
-
 export const editDeck = (editDeck) =>{
   return {
     type: 'EDIT_DECK',
@@ -81,40 +73,8 @@ export const removeDeck = (deckId) => {
   }).then(dispatch({type:'DELETE_DECK', payload: null}))
 }
 
-export const addCard = (deckId, cardBody) => {
-  return (dispatch) => fetch(`${BaseURL}/decks/${deckId}/flashCards`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    body: JSON.stringify(cardBody)
-  }).then(res => res.json())
-  .then(newCard => dispatch({type: 'ADD_CARD', payload: newCard}))
-}
-
-export const selectCard = (cardId) => {
-  return (dispatch) => fetch(`${BaseURL}/flashCards/${cardId}`)
-  .then(res => res.json())
-  .then(selectedCard => dispatch({type: 'SELECT_CARD', payload: selectedCard}))
-}
-
-export const changeCardForm = (cardId) => {
-  return (dispatch) => fetch(`${BaseURL}/flashCards/${cardId}`)
-  .then(res => res.json())
-  .then(selectedCard => dispatch({type: 'SELECTED_CARD_FORM', payload: selectedCard}))
-}
- 
-export const editCard = (cardId, cardBody) => {
-  return (dispatch) => fetch(`${BaseURL}/flashCards/${cardId}`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    body: JSON.stringify(cardBody)
-  }).then(res => res.json())
-  .then(editedCard => dispatch({type: 'EDIT_CARD', payload: editedCard}))
+export const changeFormMode = (mode) => {
+  return (dispatch) => dispatch({type: 'CHANGE_FORM_MODE', payload: mode})
 }
 
 export const changeTab = (tabName) => {
