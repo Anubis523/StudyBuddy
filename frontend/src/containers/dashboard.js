@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { getDecks, getDecksCards, changeTab } from '../actions/items'
 import DeckContainer from '../containers/deckContainer'
 import CardContainer from '../containers/cardContainer'
+import ReviewContainer from '../containers/reviewContainer'
 
 class Dashboard extends React.Component {
   constructor(props){
@@ -23,6 +24,10 @@ class Dashboard extends React.Component {
 
         case 'DECKS':
           getDecks(currentUser.id)
+          break
+
+        case 'REVIEW':
+          // logic goies here
           break
 
         default:
@@ -44,6 +49,7 @@ class Dashboard extends React.Component {
         <Segment>
           {activeItem === 'CARDS'&& <CardContainer />}
           {activeItem === 'DECKS'&& <DeckContainer />}
+          {activeItem === 'REVIEW' && <ReviewContainer/>}
         </Segment>
       </Container>
     )

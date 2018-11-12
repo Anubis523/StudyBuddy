@@ -8,11 +8,15 @@ const initialState = {
   browsingDeck: {},
   browsingCard: {},
   selectedCard: {},
+  inReview: false,
   formMode: ''
 }
 
 const appReducer = (state = initialState, { type, payload}) => {
   switch (type) {
+
+    case 'CHANGE_IN_REVIEW':
+      return {...state, inReview: payload}
 
     case 'CHANGE_FORM_MODE':
       return {...state, formMode: payload}
@@ -22,15 +26,7 @@ const appReducer = (state = initialState, { type, payload}) => {
       return {...state, currentUser: payload, isAuthed: true}
     
     case 'LOG_OFF': // needs to be revised with auth
-      return {...state, currentUser: {},
-      isAuthed: false,
-      activeItem: 'CARDS',
-      selectedDeck: {},
-      currentDecks: [],
-      currentCards: [],
-      browsingDeck: {},
-      browsingCard: {},
-      selectedCard: {}}
+      return initialState
     
     case 'CHANGE_TAB':
       return {...state, activeItem: payload}

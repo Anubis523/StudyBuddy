@@ -28,8 +28,8 @@ export const editDeck = (editDeck) =>{
   }
 }
 
-export const selectDeck = (deckId) => {
-  return (dispatch) => dispatch({type: 'SELECT_DECK', payload: deckId})
+export const selectDeck = (selectDeck) => {
+  return (dispatch) => dispatch({type: 'SELECT_DECK', payload: selectDeck})
 }
 
 export const getDecksCards = (deckId) => {
@@ -37,7 +37,7 @@ export const getDecksCards = (deckId) => {
   .then(res => res.json())
   .then(cards => dispatch({type: 'GET_DECK_CARDS', payload: cards}))
 }
-
+//*NOTE: not implemented yet ...
 export const browseDeck = (browseDeck) =>{
   return {
     type: 'BROWSE_DECK',
@@ -79,4 +79,8 @@ export const changeFormMode = (mode) => {
 
 export const changeTab = (tabName) => {
   return (dispatch) => dispatch({type: 'CHANGE_TAB', payload: tabName})
+}
+
+export const changeInReview = (bool) => {
+  return(dispatch) =>  dispatch({type: 'CHANGE_IN_REVIEW', payload: bool})
 }
