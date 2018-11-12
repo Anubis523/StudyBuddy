@@ -31,5 +31,17 @@ module.exports = {
       editFlashCard.update(cardBody)
       return editFlashCard.save()}
     )
+  },
+  checkAnswers(id, wasRightBool){
+    return FlashCard.findByPk(id)
+    .then(flashCard => {
+      let {timesAttempted, timesCorrect} = flashCard
+      flashCard.timesAttempted = ++timesAttempted
+
+      if (wasRightBool) {
+        flashCard.timesCorrect = ++ timesCorrect
+      }
+      return flashCard.save()
+    })
   }
 }
