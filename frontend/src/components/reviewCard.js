@@ -3,12 +3,11 @@ import React from 'react'
 import { Container, Menu, Segment, Radio, Button } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import { connect } from 'react-redux'
+import { correctCard } from '../actions/cardActions'
 
 class ReviewCard extends React.Component {
 
   state = {
-    timesCorrect: this.props.card.timesCorrect,
-    timesAttempted: this.props.card.timesAttempted,
     timesToAnswer: 1
   }
 
@@ -23,8 +22,7 @@ class ReviewCard extends React.Component {
   }
 
   render() {
-  const { timesCorrect, timesAttempted } = this.state
-  const { question, type } = this.props.card
+  const { question, type, timesCorrect, timesAttempted } = this.props.card
   const answerButtons = this.props.card.answers.map((answer, idx) => {
     if(!!answer){return <Button key={`answerButton-${idx}`} width={8} onClick={(evt)=> {this.checkIfRight(evt, idx)}}>{answer}</Button>}
     else { return null}
@@ -40,11 +38,10 @@ class ReviewCard extends React.Component {
   )}
 }
 
-
-
 const mapDispatchToProps = dispatch => {
   return {
     // needs a dispatch that patches the number of attempts/correct answers
+    correctCard: (cardId, right) => dispatch(correctCard(cardId, right))
   }
 }
 

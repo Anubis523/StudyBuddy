@@ -35,6 +35,26 @@ class Dashboard extends React.Component {
       }
   }
 
+  handleActiveItem = (activeItem) => {
+    switch(activeItem) {
+      case 'BROWSE':
+        console.log('browse tab clicked!!')
+        return null
+
+      case 'CARDS':
+        return <CardContainer/>
+
+      case 'DECKS':
+        return <DeckContainer/>
+
+      case 'REVIEW':
+        return <ReviewContainer/>
+
+      default:
+        break
+    }
+  }
+
   render(){
     const { activeItem } = this.props
     return(
@@ -47,9 +67,7 @@ class Dashboard extends React.Component {
 
         </Menu>
         <Segment>
-          {activeItem === 'CARDS'&& <CardContainer />}
-          {activeItem === 'DECKS'&& <DeckContainer />}
-          {activeItem === 'REVIEW' && <ReviewContainer/>}
+          {this.handleActiveItem(activeItem)}
         </Segment>
       </Container>
     )

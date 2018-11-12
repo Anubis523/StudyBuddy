@@ -66,6 +66,17 @@ const appReducer = (state = initialState, { type, payload}) => {
     case 'SELECT_CARD':
       return {...state, selectedCard: payload}
 
+    case 'CARD_CORRECTED':
+      currentCardsClone = [...state.currentCards]
+      currentCardsClone = currentCardsClone.map(card => {
+        if (card.id === payload.id) {
+          card = payload
+        }
+        return card
+      })
+
+      return {...state, currentCards: currentCardsClone }
+
     default:
       return state
   }
