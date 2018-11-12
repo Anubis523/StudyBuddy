@@ -1,9 +1,10 @@
 import React from 'react'
+// eslint-disable-next-line
 import { Container, Menu, Segment, Radio, Button } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import { connect } from 'react-redux'
 import DeckReviewItem from '../components/deckReviewItem'
-import ReviewCard from '../components/reviewCard'
+import ReviewCardsContainer from '../containers/reviewCardsContainer'
 import { getDecks, getDecksCards, changeInReview } from '../actions/items'
 
 class ReviewContainer extends React.Component {
@@ -37,7 +38,6 @@ class ReviewContainer extends React.Component {
     const { reviewMode } = this.state
     const { inReview } = this.props
     const deckReviewItems = this.props.currentDecks.map(deck => <DeckReviewItem key={`DeckReview-${deck.id}`} deck={deck}/>)
-    const reviewCards = this.props.currentCards.map(card => <ReviewCard key={`ReviewCard-${card.id}`} card={card}/>)
     return(<>
       Review Container Content Pending
       <Segment inverted>
@@ -47,7 +47,7 @@ class ReviewContainer extends React.Component {
       </Segment>
       { !inReview && reviewMode === 'Deck Review' && deckReviewItems }
       { !inReview && reviewMode === 'Review By Subject/Tag' && <>Review by subject/tag goes here</>}
-      { inReview && reviewCards }
+      { inReview && <ReviewCardsContainer/>}
     </>)
   }
 }
@@ -57,7 +57,6 @@ const mapStateToProps = state => {
     currentDecks: state.base.currentDecks,
     currentUser: state.base.currentUser,
     selectedDeck: state.base.selectedDeck,
-    currentCards: state.base.currentCards,
     inReview: state.base.inReview
   }
 }
