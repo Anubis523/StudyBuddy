@@ -4,7 +4,7 @@ import { Container, Menu, Segment, Radio, Button } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import { connect } from 'react-redux'
 import ReviewCard from '../components/reviewCard'
-import * as _cardForm from '../actions/cardFormActions'
+// import * as _cardForm from '../actions/cardFormActions'
 import * as _cardAction from '../actions/cardActions'
 
 class ReviewCardsContainer extends React.Component {
@@ -17,18 +17,18 @@ class ReviewCardsContainer extends React.Component {
     let { cardNumber } = this.state
     const { currentCards, selectedCard } = this.props
     switch(evt.target.name) {
-      case'next':
+      case 'next':
         this.setState({ revealedAnswer: false})
         cardNumber < currentCards.length - 1 ? ++cardNumber : cardNumber = currentCards.length - 1
         break
 
-      case'previous':
+      case 'previous':
         this.setState({ revealedAnswer: false})
         cardNumber < 1 ? cardNumber = 0: --cardNumber
         break 
       
       case 'revealAnswer':
-        this.setState({ revealedAnswer: true})
+        this.setState({ revealedAnswer: !this.state.revealedAnswer})
         break
 
       case 'right':
@@ -73,6 +73,7 @@ class ReviewCardsContainer extends React.Component {
           <Button onClick={this.handleChange} name='next' color='teal' type='button'>Next</Button>
         </Segment>
         {this.currentReview()}
+        <Button onClick={this.handleChange} name='revealAnswer' color='violet' type='button'>Answer?</Button>
         { revealedAnswer &&
         <Segment inverted>
         <p>The Answer was: <span>{this.getRightAnswer()} .Were you right or wrong?</span></p>
@@ -82,7 +83,6 @@ class ReviewCardsContainer extends React.Component {
             </Button.Group>
           </Segment>
          }
-        <Button onClick={this.handleChange} name='revealAnswer' color='violet' type='button'>Answer?</Button>
       </Segment> 
     </>)
   }
@@ -96,7 +96,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    selectCard: (card) => dispatch(_cardAction.selectCardFromCards(card)),
+    selectCard: (card) => dispatch(_cardAction.selectCardManually(card)),
     correctCard: (cardId, right) => dispatch(_cardAction.correctCard(cardId, right))
   }
 }

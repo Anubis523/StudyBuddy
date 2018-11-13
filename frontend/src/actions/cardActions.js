@@ -44,7 +44,7 @@ export const correctCard = (cardId, right) => {
     .then(correctCard => dispatch({ type: 'CARD_CORRECTED', payload: correctCard }))
 }
 
-export const selectCardFromCards = (card) => {
+export const selectCardManually = (card) => {
   return (dispatch) => dispatch({type: 'SELECT_CARD', payload: card})
 }
  

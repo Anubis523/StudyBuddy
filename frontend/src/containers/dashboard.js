@@ -8,34 +8,17 @@ import CardContainer from '../containers/cardContainer'
 import ReviewContainer from '../containers/reviewContainer'
 
 class Dashboard extends React.Component {
-  constructor(props){
-    super(props)
-    this.state = {
-    }
-  }
 
-  changeTab = (evt) => {
-    const { currentUser, getDecks, getDecksCards, selectedDeck, changeTab} = this.props
+  handleChangeTab = (evt) => {
+    // eslint-disable-next-line
+    const { changeTab } = this.props
     changeTab(evt.target.innerText)
-      switch(evt.target.innerText) {
-        case 'CARDS':
-          selectedDeck? getDecksCards(selectedDeck.id) : console.log('No deck selected') // to be replaced w/ user notification
-          break
-
-        case 'DECKS':
-          getDecks(currentUser.id)
-          break
-
-        case 'REVIEW':
-          // logic goies here
-          break
-
-        default:
-          return null
-      }
+    this.handleActiveItem(evt.target.innerText)
   }
 
   handleActiveItem = (activeItem) => {
+
+    const { currentUser } = this.props
     switch(activeItem) {
       case 'BROWSE':
         console.log('browse tab clicked!!')
@@ -45,6 +28,7 @@ class Dashboard extends React.Component {
         return <CardContainer/>
 
       case 'DECKS':
+        getDecks(currentUser.id)
         return <DeckContainer/>
 
       case 'REVIEW':
@@ -60,19 +44,17 @@ class Dashboard extends React.Component {
     return(
       <Container>
         <Menu attached="top" tabular>
-          <Menu.Item name='CARDS' active={activeItem === 'CARDS'} onClick={this.changeTab}/>
-          <Menu.Item name='DECKS' active={activeItem === 'DECKS'} onClick={this.changeTab}/>
-          <Menu.Item name='REVIEW' active={activeItem === 'REVIEW'} onClick={this.changeTab}/>
-          <Menu.Item name='BROWSE' active={activeItem === 'BROWSE'} onClick={this.changeTab}/>
-
+          <Menu.Item name='DECKS' active={activeItem === 'DECKS' || activeItem === 'CARDS'} onClick={this.handleChangeTab}/>
+          <Menu.Item name='REVIEW' active={activeItem === 'REVIEW'} onClick={this.handleChangeTab}/>
+          <Menu.Item name='BROWSE' active={activeItem === 'BROWSE'} onClick={this.handleChangeTab}/>
         </Menu>
+
         <Segment>
           {this.handleActiveItem(activeItem)}
         </Segment>
       </Container>
-    )
+    )}
   }
-}
 
 const mapStateToProps = state => {
   return { 
@@ -82,6 +64,7 @@ const mapStateToProps = state => {
     activeItem: state.base.activeItem
   }
 }
+
 const mapDispatchToProps = dispatch => {
   return { 
     getDecks: (id) => dispatch(getDecks(id)),
@@ -89,4 +72,5 @@ const mapDispatchToProps = dispatch => {
     changeTab: (tabName) => dispatch(changeTab(tabName))
    }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

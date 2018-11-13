@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Segment, Button } from 'semantic-ui-react'
+import { getDecks } from '../actions/items'
 import DeckListing from '../components/deckListing'
 import AddDeckForm from '../components/forms/addDeckForm'
 import 'semantic-ui-css/semantic.min.css'
@@ -11,6 +12,11 @@ class DeckContainer extends React.Component {
     this.state = {
       addDeckFormVisible: false
     }
+  }
+
+  componentDidMount(){
+    const { getDecks, currentUser } = this.props
+    getDecks(currentUser.id)
   }
 
   toggleDeckFormVisiblity = () => {
@@ -31,11 +37,16 @@ class DeckContainer extends React.Component {
 
 
 const mapStateToProps = state => {
-  return { currentDecks: state.base.currentDecks}
+  return { 
+    currentDecks: state.base.currentDecks,
+    currentUser: state.base.currentUser
+  }
 }
 
 const mapDispatchToProps = dispatch => {
-  return {}
+  return {
+    getDecks: (userId) => dispatch(getDecks(userId))
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeckContainer)

@@ -1,7 +1,7 @@
 const initialState = {
   currentUser: {},
   isAuthed: false,
-  activeItem: 'CARDS',
+  activeItem: 'DECKS',
   selectedDeck: {},
   currentDecks: [],
   currentCards: [],
@@ -29,7 +29,7 @@ const appReducer = (state = initialState, { type, payload}) => {
       return initialState
     
     case 'CHANGE_TAB':
-      return {...state, activeItem: payload}
+      return {...state, activeItem: payload, currentCards: [], inReview: false}
 
     case 'GET_DECK_CARDS':
       return {...state, currentCards: payload}

@@ -22,25 +22,24 @@ class ReviewCard extends React.Component {
   }
 
   render() {
-  const { question, type, timesCorrect, timesAttempted } = this.props.card
-  const answerButtons = this.props.card.answers.map((answer, idx) => {
-    if(!!answer){return <Button key={`answerButton-${idx}`} width={8} onClick={(evt)=> {this.checkIfRight(evt, idx)}}>{answer}</Button>}
-    else { return null}
-  })
+    const { question, type, timesCorrect, timesAttempted } = this.props.card
+    const answerButtons = this.props.card.answers.map((answer, idx) => {
+      if(!!answer){return <Button key={`answerButton-${idx}`} width={8} onClick={(evt)=> {this.checkIfRight(evt, idx)}}>{answer}</Button>}
+      else { return null}
+    })
 
-  return (
-    <Segment inverted>
-      <h2>{ type }</h2>
-      <h3>{question}</h3>
-      {type !== 'Fill in the Blank' && answerButtons }
-      <p><span>{timesCorrect}</span> out of <span>{timesAttempted}</span> times was answered correctly.</p>
-    </Segment>
+    return (
+      <Segment inverted>
+        <h2>{ type }</h2>
+        <h3>{question}</h3>
+        {type !== 'Fill in the Blank' && answerButtons }
+        <p><span>{timesCorrect}</span> out of <span>{timesAttempted}</span> times was answered correctly.</p>
+      </Segment>
   )}
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    // needs a dispatch that patches the number of attempts/correct answers
     correctCard: (cardId, right) => dispatch(correctCard(cardId, right))
   }
 }

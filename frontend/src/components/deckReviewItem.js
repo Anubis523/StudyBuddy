@@ -5,7 +5,6 @@ import 'semantic-ui-css/semantic.min.css'
 import { connect } from 'react-redux'
 import { selectDeck, changeInReview, getDecksCards } from '../actions/items'
 
-
 const DeckReviewItem = props => {
   const { name, description } = props.deck
   return (

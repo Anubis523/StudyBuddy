@@ -34,6 +34,7 @@ class ReviewContainer extends React.Component {
     }
     this.setState({ reviewMode })
   }
+
   render() {
     const { reviewMode } = this.state
     const { inReview } = this.props
