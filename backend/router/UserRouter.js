@@ -1,7 +1,10 @@
-const express = require('express'),
-          app = express(),
-       router = express.Router(),
-       userController = require('../controllers/UserController')
+ const express = require('express'),
+           app = express(),
+        router = express.Router(),
+userController = require('../controllers/UserController'),
+           jwt = require('jsonwebtoken'),
+   verifyToken = require('../middleware/middleware').verifyToken
+
 
   router
     .route('/cardPools')
@@ -25,8 +28,12 @@ const express = require('express'),
     .post((req, res, next) => {
       userController.createUser(req.body.user)
       .then(user =>  {
-        userController.createDeck({name: 'CardPool', description: "Complete Collection of all Cards"}, user.id)
-        return res.json(user)
+        jwt.sign({ user }, 'secret', { expiresIn: '5m'}, (err, token)=> {
+
+          userController.createDeck({name: 'CardPool', description: "Complete Collection of all Cards"}, user.id)
+          return res.json({user, token})
+        })
+
       })
     })
 
@@ -41,12 +48,7 @@ const express = require('express'),
       .then(otherDecks => res.json(otherDecks))
     })
 
-  router
-    .route('/:id/cardPool')
-    .all((req, res, next) => {
-      next()
-    })
-    .get((req, res) =>{
+  router.get('/:id/cardPool',(req, res) =>{
       userController.getCardPool(req.params.id)
       .then(cardPool => res.json(cardPool))
     })

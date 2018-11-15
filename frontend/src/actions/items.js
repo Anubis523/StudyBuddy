@@ -5,6 +5,22 @@ export const changeUser = (id) => {
     .then(json =>  dispatch({ type: 'CHANGE_USER', payload: json}))
 }
 
+export const login = (user) => {
+  return (dispatch) => fetch(`${BaseURL}/auth/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    }, body: JSON.stringify({user: user})
+  }).then(res => res.json())
+  .then(data => {
+    localStorage.setItem('token', data.token)
+    localStorage.setItem('user', JSON.stringify(data.user))
+    dispatch({ type: 'CHANGE_USER', payload: data.user})
+    dispatch({ type: 'CHANGE_TOKEN', payload: localStorage.token})
+  }).catch(err => console.log(err))
+}
+
 export const newUser = (userObj) => {
   return (dispatch) => fetch(`${BaseURL}/users`, {
     method: 'POST',
@@ -14,11 +30,17 @@ export const newUser = (userObj) => {
     },
     body: JSON.stringify(userObj)
   }).then(res => res.json())
-  .then(user => dispatch({type: 'NEW_USER', payload:user}))
+  .then(data => {
+    localStorage.setItem('token', data.token)
+    dispatch({ type: 'CHANGE_TOKEN', payload: localStorage.token})
+    dispatch({type: 'NEW_USER', payload:data.user})
+  })
 }
 
 export const logOff = () => {
-  return (dispatch) => dispatch({type: 'LOG_OFF', payload: null})
+  return (dispatch) => {
+    dispatch({type: 'LOG_OFF', payload: null})
+  }
 }
 
 export const editDeck = (id, editDeck) =>{
@@ -86,6 +108,10 @@ export const changeTab = (tabName) => {
   return (dispatch) => dispatch({type: 'CHANGE_TAB', payload: tabName})
 }
 
+export const setUser = (user) => {
+  return (dispatch) => dispatch({ type: 'SET_USER', payload: user})
+}
+
 export const changeInReview = (bool) => {
   return(dispatch) =>  dispatch({type: 'CHANGE_IN_REVIEW', payload: bool})
 }
@@ -93,3 +119,7 @@ export const changeInReview = (bool) => {
 export const changeDeckFormMode  = (mode) => {
   return (dispatch) => dispatch({ type: 'CHANGE_DECK_FORM_MODE', payload: mode})
 }
+
+export const changeToken = token => {
+  return (dispatch) => dispatch({ type: 'CHANGE_TOKEN', payload: token })
+} 

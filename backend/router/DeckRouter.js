@@ -1,15 +1,23 @@
 const express = require('express'),
        router = express.Router(),
-       deckController = require('../controllers/DeckController')
-
+       deckController = require('../controllers/DeckController'),
+          verifyToken = require('../middleware/middleware').verifyToken,
+                  jwt = require('jsonwebtoken')
   router
-    .route('/') // *NOTE: does not delete the 
+    .route('/', verifyToken) // *NOTE: does not delete the 
     .all((req, res, next) => {
       next()
     })
     .get((req, res) => {
-      deckController.index()
-      .then(decks => res.json(decks))
+      console.log(req)
+      jwt.verify(req.token, 'secret', (err, authData) => {
+        if (err){
+          res.sendStatus(403)
+        } else {
+          deckController.index()
+        .then(decks => res.json(decks))
+        }
+      }) 
     })
 
   router

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { changeUser } from '../actions/items'
+import { changeUser, login } from '../actions/items'
 import { Form } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 class Login extends Component{
@@ -17,7 +17,9 @@ class Login extends Component{
 
   onSubmit = (evt) => {
     evt.preventDefault()
-    this.props.changeUser(13)
+    const { username, password } = this.state
+    let user = {username, password}
+    this.props.login(user)
     this.setState({username: '', password: ''})
   }
 
@@ -37,6 +39,9 @@ class Login extends Component{
   }
 }
 const mapDispatchToProps = dispatch => {
-  return {changeUser: (id) => dispatch(changeUser(id))}
+  return {
+    changeUser: (id) => dispatch(changeUser(id)),
+    login: (user) => dispatch(login(user))
+  }
 }
 export default connect(null, mapDispatchToProps)(Login)

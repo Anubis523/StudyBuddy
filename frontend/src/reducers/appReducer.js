@@ -1,6 +1,7 @@
 const initialState = {
-  currentUser: {},
+  currentUser: JSON.parse(localStorage.getItem('user')),
   isAuthed: false,
+  token: '',
   activeItem: 'DECKS',
   selectedDeck: {},
   currentDecks: [],
@@ -15,7 +16,6 @@ const initialState = {
 
 const appReducer = (state = initialState, { type, payload}) => {
   switch (type) {
-
     case 'CHANGE_DECK_FORM_MODE':
       return {...state, deckFormMode: payload}
 
@@ -24,13 +24,17 @@ const appReducer = (state = initialState, { type, payload}) => {
 
     case 'CHANGE_FORM_MODE':
       return {...state, formMode: payload}
-    
+
+    case 'CHANGE_TOKEN':
+      return {...state, token: payload}
+
+    case 'SET_USER':
     case 'NEW_USER':
     case 'CHANGE_USER':
-      return {...state, currentUser: payload, isAuthed: true}
+      return {...state, currentUser: payload}//, isAuthed: true
     
     case 'LOG_OFF': // needs to be revised with auth
-      return initialState
+      return {...initialState, currentUser: {}}
     
     case 'CHANGE_TAB':
       return {...state, activeItem: payload, currentCards: [], inReview: false}

@@ -24,7 +24,7 @@ class AddDeckForm extends Component {
     let id = this.props.currentUser.id
     const { name, description } = this.state
     const { deckFormMode, selectedDeck } = this.props
-    debugger
+    // debugger
     if (deckFormMode === 'ADD'){
       this.props.addDeck( id, {deck: {name, description}})
     } else if (deckFormMode === 'EDIT') {
@@ -50,11 +50,11 @@ class AddDeckForm extends Component {
         <Form inverted onSubmit={this.handleSubmit}>
           <Form.Field>
             <label>Deck Name:</label>
-            <input name='name' value={name} onChange={this.handleInputChange} type='text'placeholder='Super Awesome Deck'/>
+            <input name='name' value={name} onChange={this.handleInputChange} maxLength={400} type='text'placeholder='Super Awesome Deck'/>
           </Form.Field>
           <Form.Field>
             <label>Deck Description:</label>
-            <input name='description' value={description} onChange={this.handleInputChange} type='text'placeholder='description...'/>
+            <input name='description' maxLength={400} value={description} onChange={this.handleInputChange} type='text'placeholder='description...'/>
           </Form.Field>
           <Button disabled={name.length < 1} color='blue' value='submit'>Submit</Button>
           <Button color='pink' onClick={this.handleCancel}>Cancel</Button>

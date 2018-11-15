@@ -3,17 +3,35 @@ import './App.css';
 import Signin from './containers/signin'
 import Welcome from './containers/welcome'
 import { connect } from 'react-redux'
+import { setUser } from './actions/items'
 class App extends Component {
+  componentDidMount(){
+    if (!!localStorage.token){
+      let user = JSON.parse(localStorage.getItem('user'))
+      this.props.setUser(user)
+    }
+  }
+
   render() {
+    const { token } = this.props    
     return (
       <div>
-          {!this.props.authed ? <Signin/> : <Welcome/>}
+          {!token ? <Signin/> : <Welcome/>}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {authed: state.base.isAuthed}
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: (user) => dispatch(setUser(user))
+  }
 }
-export default connect(mapStateToProps)(App);
+
+const mapStateToProps = state => {
+  return {
+    token: state.base.token
+  }
+}
+ 
+export default connect(mapStateToProps, mapDispatchToProps)(App);
