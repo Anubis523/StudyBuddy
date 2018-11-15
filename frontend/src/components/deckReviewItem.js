@@ -20,7 +20,9 @@ const handleClick = (evt, props) => {
   props.selectDeck(props.deck)
   props.getDecksCards(props.deck.id)
   props.changeInReview(true)
+
 } 
+
 const mapDispatchToProps = dispatch => {
   return {
     selectDeck: (deck) => dispatch(selectDeck(deck)),

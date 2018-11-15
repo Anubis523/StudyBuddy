@@ -6,11 +6,11 @@ import { getDecks, getDecksCards, changeTab } from '../actions/items'
 import DeckContainer from '../containers/deckContainer'
 import CardContainer from '../containers/cardContainer'
 import ReviewContainer from '../containers/reviewContainer'
+import ReportContainer from '../containers/reportContainer'
 
 class Dashboard extends React.Component {
 
   handleChangeTab = (evt) => {
-    // eslint-disable-next-line
     const { changeTab } = this.props
     changeTab(evt.target.innerText)
     this.handleActiveItem(evt.target.innerText)
@@ -20,9 +20,8 @@ class Dashboard extends React.Component {
 
     const { currentUser } = this.props
     switch(activeItem) {
-      case 'BROWSE':
-        console.log('browse tab clicked!!')
-        return null
+      case 'REPORT':
+        return <ReportContainer/>
 
       case 'CARDS':
         return <CardContainer/>
@@ -46,7 +45,7 @@ class Dashboard extends React.Component {
         <Menu attached="top" tabular>
           <Menu.Item name='DECKS' active={activeItem === 'DECKS' || activeItem === 'CARDS'} onClick={this.handleChangeTab}/>
           <Menu.Item name='REVIEW' active={activeItem === 'REVIEW'} onClick={this.handleChangeTab}/>
-          <Menu.Item name='BROWSE' active={activeItem === 'BROWSE'} onClick={this.handleChangeTab}/>
+          <Menu.Item name='REPORT' active={activeItem === 'REPORT'} onClick={this.handleChangeTab}/>
         </Menu>
 
         <Segment>

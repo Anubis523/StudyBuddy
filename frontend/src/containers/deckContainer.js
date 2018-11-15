@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Segment, Button } from 'semantic-ui-react'
-import { getDecks } from '../actions/items'
+import * as _actions from '../actions/items'
 import DeckListing from '../components/deckListing'
 import AddDeckForm from '../components/forms/addDeckForm'
 import 'semantic-ui-css/semantic.min.css'
@@ -20,18 +20,25 @@ class DeckContainer extends React.Component {
   }
 
   toggleDeckFormVisiblity = () => {
+
     this.setState({addDeckFormVisible: !this.state.addDeckFormVisible})
   }
+
+  handleAddDeckButton = () => {
+    this.props.changeDeckFormMode('ADD')
+    this.toggleDeckFormVisiblity()
+  }
   render() {
+    const { selectedDeck } = this.props
     // debugger
-    const deckListing = () => this.props.currentDecks.map(deck => <DeckListing key={`Deck-${deck.id}`} deck={deck}/>)
+    const deckListing = () => this.props.currentDecks.map(deck => <DeckListing key={`Deck-${deck.id}`} toggleFormVisibility={this.toggleDeckFormVisiblity} deck={deck}/>)
     const { addDeckFormVisible } = this.state
-    return (
-      <Segment >
-        {!addDeckFormVisible && <Button onClick={this.toggleDeckFormVisiblity}>Add Deck</Button>}
-        {addDeckFormVisible ? <AddDeckForm toggleVisibility={this.toggleDeckFormVisiblity}/> : this.props.currentDecks.length > 0 ? deckListing() : <h3>No Decks to Speak of!!</h3>}
-      </Segment>
-    )
+    return (<>
+        <Segment inverted>
+          <Button color='blue' disabled={addDeckFormVisible} onClick={this.handleAddDeckButton}>Add Deck</Button>
+        </Segment>
+        {addDeckFormVisible ? <AddDeckForm name={selectedDeck.name} description={selectedDeck.description} toggleVisibility={this.toggleDeckFormVisiblity}/> : this.props.currentDecks.length > 0 ? deckListing() : <h3>No Decks to Speak of!!</h3>}
+    </>)
   }
 }
 
@@ -39,13 +46,15 @@ class DeckContainer extends React.Component {
 const mapStateToProps = state => {
   return { 
     currentDecks: state.base.currentDecks,
-    currentUser: state.base.currentUser
+    currentUser: state.base.currentUser,
+    selectedDeck: state.base.selectedDeck
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    getDecks: (userId) => dispatch(getDecks(userId))
+    getDecks: (userId) => dispatch(_actions.getDecks(userId)),
+    changeDeckFormMode: (mode) => dispatch(_actions.changeDeckFormMode(mode))
   }
 }
 

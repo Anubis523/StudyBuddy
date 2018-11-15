@@ -21,11 +21,16 @@ export const logOff = () => {
   return (dispatch) => dispatch({type: 'LOG_OFF', payload: null})
 }
 
-export const editDeck = (editDeck) =>{
-  return {
-    type: 'EDIT_DECK',
-    payload: editDeck
-  }
+export const editDeck = (id, editDeck) =>{
+  return (dispatch) => fetch (`${BaseURL}/decks/${id}/edit`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(editDeck)
+  }).then( res => res.json())
+  .then(editDeck => dispatch({type: 'EDIT_DECK', payload: editDeck}))
 }
 
 export const selectDeck = (selectDeck) => {
@@ -70,7 +75,7 @@ export const removeDeck = (deckId) => {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     }
-  }).then(dispatch({type:'DELETE_DECK', payload: null}))
+  }).then(dispatch({type:'DELETE_DECK', payload: deckId}))
 }
 
 export const changeFormMode = (mode) => {
@@ -83,4 +88,8 @@ export const changeTab = (tabName) => {
 
 export const changeInReview = (bool) => {
   return(dispatch) =>  dispatch({type: 'CHANGE_IN_REVIEW', payload: bool})
+}
+
+export const changeDeckFormMode  = (mode) => {
+  return (dispatch) => dispatch({ type: 'CHANGE_DECK_FORM_MODE', payload: mode})
 }

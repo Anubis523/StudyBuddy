@@ -8,12 +8,16 @@ const initialState = {
   browsingDeck: {},
   browsingCard: {},
   selectedCard: {},
+  deckFormMode: '',
   inReview: false,
   formMode: ''
 }
 
 const appReducer = (state = initialState, { type, payload}) => {
   switch (type) {
+
+    case 'CHANGE_DECK_FORM_MODE':
+      return {...state, deckFormMode: payload}
 
     case 'CHANGE_IN_REVIEW':
       return {...state, inReview: payload}
@@ -40,6 +44,22 @@ const appReducer = (state = initialState, { type, payload}) => {
     case 'SELECT_DECK':
       return {...state, selectedDeck: payload}
 
+    case 'EDIT_DECK':
+      let currentDecks = [...state.currentDecks]
+      let alterDecks = currentDecks.map(deck => {
+        if (deck.id === payload.id) {
+          return payload
+        } else {
+          return deck
+        }
+      })
+      return {...state, selectedDeck: payload, currentDecks: alterDecks}
+
+    case 'DELETE_DECK':
+      currentDecks = [...state.currentDecks]
+      alterDecks = currentDecks.filter(deck => deck.id !== payload)
+      return {...state, currentDecks: alterDecks }
+
     case 'GET_CARD_POOL':
       return {...state, currentCards: payload}
 
@@ -52,9 +72,6 @@ const appReducer = (state = initialState, { type, payload}) => {
     
     case 'EDIT_CARD':
       return{...state, selectedCard: payload}
-    
-    case 'DELETE_DECK':
-      return state
 
     case 'DELETE_CARD':
       return {...state, currentCards: payload }

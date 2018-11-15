@@ -40,7 +40,6 @@ class ReviewContainer extends React.Component {
     const { inReview } = this.props
     const deckReviewItems = this.props.currentDecks.map(deck => <DeckReviewItem key={`DeckReview-${deck.id}`} deck={deck}/>)
     return(<>
-      Review Container Content Pending
       <Segment inverted>
           { !inReview && <Button color='teal' name='Deck Review' type='button' onClick={this.handleClick}>Review By Deck</Button>}
           { !inReview && <Button color='teal' name='Review By Subject/Tag' type='button' disabled>Review By Subject/ Tag</Button>}

@@ -4,8 +4,9 @@ import { Container, Menu, Segment, Radio, Button } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import { connect } from 'react-redux'
 import ReviewCard from '../components/reviewCard'
-// import * as _cardForm from '../actions/cardFormActions'
+import * as _actionItems from '../actions/items'
 import * as _cardAction from '../actions/cardActions'
+import * as _reviewActions from '../actions/reviewCardActions'
 
 class ReviewCardsContainer extends React.Component {
   state = {
@@ -13,47 +14,47 @@ class ReviewCardsContainer extends React.Component {
     revealedAnswer: false
   }
 
-  handleChange = evt => {
+  handleAnswerReveal = () => {
+    this.setState({ revealedAnswer: !this.state.revealedAnswer })
+  }
+
+  handleTest = () => {
     let { cardNumber } = this.state
-    const { currentCards, selectedCard } = this.props
+    const { currentCards, setReviewCard, changeInReview } = this.props
+    if (cardNumber < currentCards.length - 1 ) {
+      this.setState({ cardNumber: ++cardNumber }) 
+    } else {
+      changeInReview(false)
+      setReviewCard(null)
+    } 
+  }
+
+  handleChange = evt => {
+    const { selectedCard } = this.props
     switch(evt.target.name) {
-      case 'next':
-        this.setState({ revealedAnswer: false})
-        cardNumber < currentCards.length - 1 ? ++cardNumber : cardNumber = currentCards.length - 1
-        break
-
-      case 'previous':
-        this.setState({ revealedAnswer: false})
-        cardNumber < 1 ? cardNumber = 0: --cardNumber
-        break 
-      
-      case 'revealAnswer':
-        this.setState({ revealedAnswer: !this.state.revealedAnswer})
-        break
-
       case 'right':
-        
         this.props.correctCard(selectedCard.id, true)
+        this.handleTest()
         break  
 
       case 'wrong':
         this.props.correctCard(selectedCard.id, false)
+        this.handleTest()
         break   
 
       default:
         break
     }
-    this.setState({ cardNumber })
+    this.setState({ revealedAnswer: false})
   }
 
   currentReview = () => {
     const { cardNumber } = this.state
     if (this.props.currentCards[cardNumber]){
       let cards = [...this.props.currentCards]
-      this.props.selectCard(cards[cardNumber])
-      return <ReviewCard card={cards[cardNumber]}/>
-    } else {
-      return null
+      let reviewCard = cards[cardNumber]
+      this.props.selectCardManually(reviewCard)
+      this.props.setReviewCard(reviewCard)
     }
   }
 
@@ -64,16 +65,17 @@ class ReviewCardsContainer extends React.Component {
   }
 
   render() {
+    this.currentReview()
     const { revealedAnswer } = this.state
-
+    const { selectedCard } = this.props
+    const { timesAttempted, timesCorrect } = selectedCard
     return(<>
       <Segment>
         <Segment inverted>
-          <Button onClick={this.handleChange} name='previous' color='teal' type='button'>Previous</Button>
-          <Button onClick={this.handleChange} name='next' color='teal' type='button'>Next</Button>
+          <h3>This question has been answered correctly <span>{timesCorrect}</span> out of <span>{timesAttempted}</span> times.</h3>
         </Segment>
-        {this.currentReview()}
-        <Button onClick={this.handleChange} name='revealAnswer' color='violet' type='button'>Answer?</Button>
+        <ReviewCard revealAnswer={this.handleAnswerReveal}/>
+        
         { revealedAnswer &&
         <Segment inverted>
         <p>The Answer was: <span>{this.getRightAnswer()} .Were you right or wrong?</span></p>
@@ -81,8 +83,7 @@ class ReviewCardsContainer extends React.Component {
               <Button onClick={this.handleChange} name='right' color='green' type='button'>Right?</Button>
               <Button onClick={this.handleChange} name='wrong' color='red' type='button'>Wrong?</Button>
             </Button.Group>
-          </Segment>
-         }
+          </Segment>}
       </Segment> 
     </>)
   }
@@ -96,8 +97,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    selectCard: (card) => dispatch(_cardAction.selectCardManually(card)),
-    correctCard: (cardId, right) => dispatch(_cardAction.correctCard(cardId, right))
+    selectCardManually: (card) => dispatch(_cardAction.selectCardManually(card)),
+    correctCard: (cardId, right) => dispatch(_cardAction.correctCard(cardId, right)),
+    setReviewCard: (card) => dispatch(_reviewActions.setReviewCard(card)),
+    changeInReview: (bool) => dispatch(_actionItems.changeInReview(bool))
   }
 }
 

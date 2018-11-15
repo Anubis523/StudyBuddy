@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import appReducer from './reducers/appReducer';
 import cardFormReducer from './reducers/cardFormReducer'
+import reviewCardReducer from './reducers/reviewCardReducer'
 import * as serviceWorker from './serviceWorker';
 
 import { createStore, applyMiddleware, combineReducers } from 'redux';
@@ -16,7 +17,8 @@ const middleWare = applyMiddleware(thunk)
 
 const rootReducer = combineReducers({
   base: appReducer,
-  cardForm: cardFormReducer
+  cardForm: cardFormReducer,
+  reviewCard: reviewCardReducer
 })
 
 const store = createStore(rootReducer, composeWithDevTools(middleWare))

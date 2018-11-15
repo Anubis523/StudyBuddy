@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 import { Container, Button, Segment, Divider, Form} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import React, { Component } from 'react'
-import { addDeck, getDecks } from '../../actions/items'
+import * as _items from '../../actions/items'
 
 class AddDeckForm extends Component {
   constructor(props){
     super(props)
     this.state = {
-      name: '',
-      description:''
+      name : props.name || '',
+      description: props.description || ''
     }
   }
 
@@ -23,8 +23,16 @@ class AddDeckForm extends Component {
     evt.preventDefault()
     let id = this.props.currentUser.id
     const { name, description } = this.state
-    this.props.addDeck( id, {deck: {name, description}})
+    const { deckFormMode, selectedDeck } = this.props
+    debugger
+    if (deckFormMode === 'ADD'){
+      this.props.addDeck( id, {deck: {name, description}})
+    } else if (deckFormMode === 'EDIT') {
+      this.props.editDeck(selectedDeck.id, {deck: {name: evt.target.name.value, description: evt.target.description.value}})
+    }
+
     this.props.getDecks(id)
+    
     for (let el of evt.target.parentElement.getElementsByTagName('input')){
       el.value = ''
     }
@@ -34,7 +42,6 @@ class AddDeckForm extends Component {
   handleCancel = () => {
     this.props.toggleVisibility()
   }
-
 
   render(){
     const { name, description } = this.state
@@ -56,14 +63,20 @@ class AddDeckForm extends Component {
     )
   }
 }
+
 const mapStateToProps = state => {
-  return {currentUser: state.base.currentUser}
+  return {
+    currentUser: state.base.currentUser,
+    deckFormMode: state.base.deckFormMode,
+    selectedDeck: state.base.selectedDeck
+  }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    addDeck: (id, deckBody) => dispatch(addDeck(id, deckBody)),
-    getDecks: (id) => dispatch(getDecks(id))
+    addDeck: (id, deckBody) => dispatch(_items.addDeck(id, deckBody)),
+    getDecks: (id) => dispatch(_items.getDecks(id)),
+    editDeck: (id, deck) => dispatch(_items.editDeck(id, deck))
   }
 }
 

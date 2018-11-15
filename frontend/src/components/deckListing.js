@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { selectDeck, editDeck, getDecks, getDecksCards, removeDeck, changeTab } from '../actions/items'
-import { Container, Button, Segment } from 'semantic-ui-react'
+import * as _actions from '../actions/items'
+import { Button, Segment } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 
 class DeckListing extends React.Component {
@@ -11,18 +11,20 @@ class DeckListing extends React.Component {
       listingVisible: true
     }
   }
+
   handleButtonGroup = (evt) => {
     evt.preventDefault()
     let name = evt.target.name
-    const { editDeck, removeDeck, deck } = this.props
+    const { selectDeck, removeDeck, deck, changeDeckFormMode, toggleFormVisibility } = this.props
     switch (name) {
       case 'edit':
-        editDeck(deck) //logic pending
+        selectDeck(deck)
+        changeDeckFormMode('EDIT')
+        toggleFormVisibility()
         break
 
       case 'delete':
        removeDeck(deck.id)
-       this.setState({listingVisible: false})
         break
 
       default:
@@ -41,17 +43,15 @@ class DeckListing extends React.Component {
     const { listingVisible } = this.state
     return (
       <>{listingVisible && <Segment inverted >
-          <Container>
             <h3>{deck.name}</h3>
             <p>{deck.description}</p>
-          </Container>
           <Button color='blue' onClick={this.handleCardOptions}>Card Options</Button>
           <Button.Group floated='right'>
             <Button color='yellow' name='edit' onClick={this.handleButtonGroup}>Edit</Button>
             <Button color='red' name='delete' onClick={this.handleButtonGroup}>Delete</Button>
           </Button.Group>
-        </Segment>}</>
-    )
+        </Segment>}
+    </>)
   }
 }
 
@@ -61,12 +61,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return { 
-    selectDeck: (deck) => dispatch(selectDeck(deck)), 
-    editDeck: (deck) => dispatch(editDeck(deck)),
-    getDecks: (userId) => dispatch(getDecks(userId)),
-    getDecksCards: (deckId) => dispatch(getDecksCards(deckId)),
-    removeDeck: (deckId) => dispatch(removeDeck(deckId)),
-    changeTab: (tabName) => dispatch(changeTab(tabName))
+    selectDeck: (deck) => dispatch(_actions.selectDeck(deck)), 
+    getDecks: (userId) => dispatch(_actions.getDecks(userId)),
+    getDecksCards: (deckId) => dispatch(_actions.getDecksCards(deckId)),
+    removeDeck: (deckId) => dispatch(_actions.removeDeck(deckId)),
+    changeTab: (tabName) => dispatch(_actions.changeTab(tabName)),
+    changeDeckFormMode: (mode) => dispatch(_actions.changeDeckFormMode(mode))
   }
 }   
 

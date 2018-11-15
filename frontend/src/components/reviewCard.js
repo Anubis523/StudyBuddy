@@ -1,30 +1,55 @@
 import React from 'react'
 // eslint-disable-next-line
-import { Container, Menu, Segment, Radio, Button } from 'semantic-ui-react'
+import { Container, Menu, Segment, Radio, Button, Form } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import { connect } from 'react-redux'
 import { correctCard } from '../actions/cardActions'
 
 class ReviewCard extends React.Component {
-
   state = {
-    timesToAnswer: 1
+    answer: '',
+    fillInAnswer: ''
+  }
+  handleFillInTheBlank = (evt) => {
+    evt.preventDefault()
+    let fillInAnswer = evt.target.value
+    this.setState({ fillInAnswer })
+    evt.target.value = ''
   }
 
-  checkIfRight = (evt ,idx) => {
+  handleFillInSubmit = (evt) => {
     evt.preventDefault()
-    let timesAnswered = this.state.timesAttempted
-    let timesCorrect = this.state.timesCorrect
-    this.setState({timesAttempted: ++timesAnswered}, () => {
-      timesCorrect = idx === this.props.card.rightAnswer ? ++timesCorrect : timesCorrect
-      this.setState({ timesCorrect })
-    })
+    this.setState({ answer: this.state.fillInAnswer})
+    this.setState({ fillInAnswer: '' })
+    this.props.revealAnswer()
+  }
+
+  handleAnswerButton = (evt, idx) => {
+    const { reviewCard } = this.props
+    const { answers } = reviewCard
+    let answer = answers[idx]
+    this.setState({ answer })
+    this.props.revealAnswer()
+  }
+
+  shouldComponentUpdate(nextProps, nextState){
+    if (this.props !== nextProps){
+      this.setState({ answer: ''}, () => {
+        this.setState({ fillInAnswer: ''})
+      })
+    }
+    return !(this.state === nextState)
   }
 
   render() {
-    const { question, type, timesCorrect, timesAttempted } = this.props.card
-    const answerButtons = this.props.card.answers.map((answer, idx) => {
-      if(!!answer){return <Button key={`answerButton-${idx}`} width={8} onClick={(evt)=> {this.checkIfRight(evt, idx)}}>{answer}</Button>}
+    const { answer, fillInAnswer } = this.state
+    const { question, type } = this.props.reviewCard
+    const answerButtons = this.props.reviewCard.answers.map((answer, idx) => {
+      if(!!answer){return (
+        <>
+          <Button key={`answerButton-${idx}`} width={8} onClick={(evt)=> {this.handleAnswerButton(evt, idx)}}>{answer}</Button>
+        </>
+        )}
       else { return null}
     })
 
@@ -32,10 +57,21 @@ class ReviewCard extends React.Component {
       <Segment inverted>
         <h2>{ type }</h2>
         <h3>{question}</h3>
+        <h4>Your answer was: <span>{answer}</span></h4>
         {type !== 'Fill in the Blank' && answerButtons }
-        <p><span>{timesCorrect}</span> out of <span>{timesAttempted}</span> times was answered correctly.</p>
+        {type === 'Fill in the Blank' && 
+          <Form onSubmit={this.handleFillInSubmit}>
+            <Form.Input type='text' value={fillInAnswer} onChange={this.handleFillInTheBlank}/>
+            <Button type='submit'>Submit</Button>
+          </Form>}
       </Segment>
   )}
+}
+
+const mapStateToProps = state => {
+  return { 
+    reviewCard: state.reviewCard
+  }
 }
 
 const mapDispatchToProps = dispatch => {
@@ -44,4 +80,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(ReviewCard)
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewCard)
