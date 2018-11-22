@@ -10,6 +10,7 @@ class ReviewCard extends React.Component {
     answer: '',
     fillInAnswer: ''
   }
+
   handleFillInTheBlank = (evt) => {
     evt.preventDefault()
     let fillInAnswer = evt.target.value
@@ -30,15 +31,6 @@ class ReviewCard extends React.Component {
     let answer = answers[idx]
     this.setState({ answer })
     this.props.revealAnswer()
-  }
-
-  shouldComponentUpdate(nextProps, nextState){
-    if (this.props !== nextProps){
-      this.setState({ answer: ''}, () => {
-        this.setState({ fillInAnswer: ''})
-      })
-    }
-    return !(this.state === nextState)
   }
 
   render() {
@@ -68,16 +60,10 @@ class ReviewCard extends React.Component {
   )}
 }
 
-const mapStateToProps = state => {
-  return { 
-    reviewCard: state.reviewCard
-  }
-}
-
 const mapDispatchToProps = dispatch => {
   return {
     correctCard: (cardId, right) => dispatch(correctCard(cardId, right))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReviewCard)
+export default connect(null, mapDispatchToProps)(ReviewCard)

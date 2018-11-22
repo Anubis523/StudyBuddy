@@ -32,6 +32,7 @@ export const newUser = (userObj) => {
   }).then(res => res.json())
   .then(data => {
     localStorage.setItem('token', data.token)
+    localStorage.setItem('user', JSON.stringify(data.user))
     dispatch({ type: 'CHANGE_TOKEN', payload: localStorage.token})
     dispatch({type: 'NEW_USER', payload:data.user})
   })
@@ -63,6 +64,7 @@ export const getDecksCards = (deckId) => {
   return (dispatch) => fetch(`${BaseURL}/decks/${deckId}/flashCards`)
   .then(res => res.json())
   .then(cards => dispatch({type: 'GET_DECK_CARDS', payload: cards}))
+  .catch(err => console.log(err.message, err))
 }
 //*NOTE: not implemented yet ...
 export const browseDeck = (browseDeck) =>{

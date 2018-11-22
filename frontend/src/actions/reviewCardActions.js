@@ -8,7 +8,7 @@ export const wasIncorrect = () =>{
 
 export const setReviewCard = (card) => {
   return (dispatch) => dispatch({ type: 'SET_REVIEW_CARD', payload: card})
-}
+} 
 
 export const hintUsed = () => {
   return (dispatch) => dispatch({ type: 'HINT_USED', payload: null })

@@ -23,10 +23,12 @@ class ReviewCardsContainer extends React.Component {
     const { currentCards, setReviewCard, changeInReview } = this.props
     if (cardNumber < currentCards.length - 1 ) {
       this.setState({ cardNumber: ++cardNumber }) 
+      setReviewCard(currentCards[cardNumber])
     } else {
       changeInReview(false)
       setReviewCard(null)
     } 
+    
   }
 
   handleChange = evt => {
@@ -59,23 +61,27 @@ class ReviewCardsContainer extends React.Component {
   }
 
   getRightAnswer = () => {
-    const { selectedCard } = this.props
-    const { rightAnswer, answers } = selectedCard
+    const { selectedCard, cardNumber, reviewCard } = this.props
+    const { rightAnswer, answers } = reviewCard
     return answers[rightAnswer]
   }
 
   render() {
-    this.currentReview()
-    const { revealedAnswer } = this.state
-    const { selectedCard } = this.props
-    const { timesAttempted, timesCorrect } = selectedCard
+    // this.currentReview()
+    const { revealedAnswer, cardNumber } = this.state
+    const { selectedCard, currentCards, setReviewCard, reviewCard } = this.props
+    const { timesAttempted, timesCorrect } = reviewCard
+
+    if (currentCards[cardNumber]){ 
+      setReviewCard(currentCards[cardNumber])
+    }
+
     return(<>
       <Segment>
         <Segment inverted>
           <h3>This question has been answered correctly <span>{timesCorrect}</span> out of <span>{timesAttempted}</span> times.</h3>
         </Segment>
-        <ReviewCard revealAnswer={this.handleAnswerReveal}/>
-        
+        {!!reviewCard.type !== '' && <ReviewCard reviewCard={reviewCard} revealAnswer={this.handleAnswerReveal}/>}
         { revealedAnswer &&
         <Segment inverted>
         <p>The Answer was: <span>{this.getRightAnswer()} .Were you right or wrong?</span></p>
@@ -91,7 +97,8 @@ class ReviewCardsContainer extends React.Component {
 const mapStateToProps = state => {
   return {
     currentCards: state.base.currentCards,
-    selectedCard: state.base.selectedCard
+    selectedCard: state.base.selectedCard,
+    reviewCard: state.reviewCard
   }
 }
 

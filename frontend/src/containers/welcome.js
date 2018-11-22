@@ -28,7 +28,6 @@ const resetEverything = (evt, props) => {
   evt.preventDefault()
   localStorage.removeItem('token')
   localStorage.removeItem('user')
-  // localStorage.clear()
   props.changeToken('')
   props.logOff()
   props.resetForm()

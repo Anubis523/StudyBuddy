@@ -38,7 +38,7 @@ const appReducer = (state = initialState, { type, payload}) => {
     
     case 'CHANGE_TAB':
       return {...state, activeItem: payload, currentCards: [], inReview: false}
-
+      
     case 'GET_DECK_CARDS':
       return {...state, currentCards: payload}
 
