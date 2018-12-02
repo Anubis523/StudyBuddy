@@ -42,17 +42,15 @@ class Dashboard extends React.Component {
   render(){
     const { activeItem } = this.props
     return(
-      <Container>
+      <Segment>
         <Menu attached="top" tabular>
           <Menu.Item name='DECKS' active={activeItem === 'DECKS' || activeItem === 'CARDS'} onClick={this.handleChangeTab}/>
           <Menu.Item name='REVIEW' active={activeItem === 'REVIEW'} onClick={this.handleChangeTab}/>
           <Menu.Item name='REPORT' active={activeItem === 'REPORT'} onClick={this.handleChangeTab}/>
         </Menu>
 
-        <Segment>
           {this.handleActiveItem(activeItem)}
-        </Segment>
-      </Container>
+      </Segment>
     )}
   }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { changeUser, login } from '../actions/items'
-import { Form } from 'semantic-ui-react'
+import { Form, Button } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 class Login extends Component{
 
@@ -33,7 +33,7 @@ class Login extends Component{
         <label>Password</label>
           <input placeholder="password" type="password" name="password" onChange={this.handleChange} value={this.state.password}/></Form.Field>
         
-        <button value="submit">Submit</button>
+        <Button value="submit">Submit</Button>
       </Form>
     )
   }

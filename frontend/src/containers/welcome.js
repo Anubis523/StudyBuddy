@@ -1,25 +1,26 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { logOff, setUser/*, changeToken*/ } from '../actions/items'
-import { Container, Menu, MenuItem, Button } from 'semantic-ui-react'
+import { logOff, setUser } from '../actions/items'
+import { Container, Menu, MenuItem, Button, Segment } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import Dashboard from './dashboard'
 
 const Welcome = (props) => {
   return (
-    <>
-      <Menu>
-        <Menu.Header>
-          <MenuItem>
-            <h1>Welcome {props.currentUser.username}!!</h1>
-          </MenuItem>
-        </Menu.Header>
+    <Container>
+      <Menu fixed='top' inverted>
+        <Menu.Item inverted>
+          <h1>Welcome {props.currentUser.username}!!</h1>
+        </Menu.Item>
+        <Menu.Item position='right'>
+          <Button onClick={(evt)=>{resetEverything(evt, props)}}>LogOff</Button>
+        </Menu.Item>
       </Menu>
-      <Container>
+      <br/>
+      <Segment>
         <Dashboard/>
-        <Button onClick={(evt)=>{resetEverything(evt, props)}}>LogOff</Button>
-      </Container>
-    </>
+      </Segment>
+    </Container>
   )
 }
 

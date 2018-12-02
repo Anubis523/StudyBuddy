@@ -30,3 +30,8 @@
     transform: rotate(360deg);
   }
 }
+
+.initial-size{
+  max-width: 65vw;
+  min-width: 45vw;
+}
