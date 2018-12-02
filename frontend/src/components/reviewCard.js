@@ -14,7 +14,9 @@ class ReviewCard extends React.Component {
   handleFillInTheBlank = (evt) => {
     evt.preventDefault()
     let fillInAnswer = evt.target.value
-    this.setState({ fillInAnswer })
+    this.setState({ fillInAnswer }) 
+    // changes the reviewCardsContainer state for fillInAnswer
+    
     evt.target.value = ''
   }
 
@@ -31,11 +33,13 @@ class ReviewCard extends React.Component {
     let answer = answers[idx]
     this.setState({ answer })
     this.props.revealAnswer()
+    // this.props.handleAnswerSubmit(fillInAnswer)
   }
 
   render() {
     const { answer, fillInAnswer } = this.state
     const { question, type } = this.props.reviewCard
+    const { revealedAnswer } = this.props
     const answerButtons = this.props.reviewCard.answers.map((answer, idx) => {
       if(!!answer){return (
         <>
@@ -49,7 +53,7 @@ class ReviewCard extends React.Component {
       <Segment inverted>
         <h2>{ type }</h2>
         <h3>{question}</h3>
-        <h4>Your answer was: <span>{answer}</span></h4>
+        {revealedAnswer && <h4>Your answer was: <span>{answer}</span></h4>}
         {type !== 'Fill in the Blank' && answerButtons }
         {type === 'Fill in the Blank' && 
           <Form onSubmit={this.handleFillInSubmit}>

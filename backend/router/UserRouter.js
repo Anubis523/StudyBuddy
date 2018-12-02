@@ -28,7 +28,7 @@ userController = require('../controllers/UserController'),
     .post((req, res, next) => {
       userController.createUser(req.body.user)
       .then(user =>  {
-        jwt.sign({ user }, 'secret', { expiresIn: '5m'}, (err, token)=> {
+        jwt.sign({ user }, 'secret', /*{ expiresIn: '5m'},*/ (err, token)=> {
 
           userController.createDeck({name: 'CardPool', description: "Complete Collection of all Cards"}, user.id)
           return res.json({user, token})

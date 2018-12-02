@@ -12,13 +12,15 @@ const DeckReviewItem = props => {
   <Segment inverted>
     <h1>{name}</h1>
     <p>{description}</p>
-    <Button color='teal' type='button' onClick={() =>handleClick(props)}>Select</Button>
+    <Button color='teal' type='button' onClick={(evt) =>handleClick(evt, props)}>Select</Button>
   </Segment>
   )
 }
 
-const handleClick = (props) => {
+const handleClick = (evt, props) => {
+  evt.preventDefault()
   props.selectDeck(props.deck)
+  debugger
   let id = props.deck.id
   props.getDecksCards(id)
   props.changeInReview(true)

@@ -17,10 +17,14 @@ export const selectCard = (cardId) => {
   .then(selectedCard => dispatch({type: 'SELECT_CARD', payload: selectedCard}))
 }
 
-export const changeCardForm = (cardId) => {
-  return (dispatch) => fetch(`${BaseURL}/flashCards/${cardId}`)
-  .then(res => res.json())
-  .then(selectedCard => dispatch({type: 'SELECTED_CARD_FORM', payload: selectedCard}))
+// export const changeCardForm = (cardId) => {
+//   return (dispatch) => fetch(`${BaseURL}/flashCards/${cardId}`)
+//   .then(res => res.json())
+//   .then(selectedCard => dispatch({type: 'SELECTED_CARD_FORM', payload: selectedCard}))
+// }
+
+export const changeCardForm = (card) => {
+  return (dispatch) => dispatch({type: 'SELECTED_CARD_FORM', payload: card})
 }
 
 export const changeAnswerOne = (answer) => {

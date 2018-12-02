@@ -122,6 +122,6 @@ export const changeDeckFormMode  = (mode) => {
   return (dispatch) => dispatch({ type: 'CHANGE_DECK_FORM_MODE', payload: mode})
 }
 
-export const changeToken = token => {
-  return (dispatch) => dispatch({ type: 'CHANGE_TOKEN', payload: token })
-} 
+// export const changeToken = token => {
+//   return (dispatch) => dispatch({ type: 'CHANGE_TOKEN', payload: token })
+// } 

@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 class ReportContainer extends React.Component {
 
   handleClick = (evt) => {
-    debugger
+    // debugger
     console.log('event target is: ', evt.target)
   }
 

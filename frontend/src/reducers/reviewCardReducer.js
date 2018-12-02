@@ -29,6 +29,9 @@ const reviewCardReducer = (state = initialState, {
       timesAttempted = state.timesAttempted
       return {...state, timesAttempted: ++timesAttempted, timesCorrect: ++timesCorrect }
 
+    case 'RESET_REVIEW_CARD':
+      return initialState
+
     default:
       return state
   }

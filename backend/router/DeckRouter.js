@@ -9,7 +9,6 @@ const express = require('express'),
       next()
     })
     .get((req, res) => {
-      console.log(req)
       jwt.verify(req.token, 'secret', (err, authData) => {
         if (err){
           res.sendStatus(403)

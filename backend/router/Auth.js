@@ -18,7 +18,7 @@ router
         res.status(401).send('Invalid password')
       } else {
         // res.json(user)
-        jwt.sign({ user }, 'secret', {expiresIn: '5m'}, (err, token) => {
+        jwt.sign({ user }, 'secret', /*{expiresIn: '5m'},*/ (err, token) => {
           if(token) {
             res.json({ token, user })
           } else {

@@ -4,19 +4,15 @@ import Signin from './containers/signin'
 import Welcome from './containers/welcome'
 import { connect } from 'react-redux'
 import { setUser } from './actions/items'
+import './App.css'
+
 class App extends Component {
-  componentDidMount(){
-    if (!!localStorage.token){
-      let user = JSON.parse(localStorage.getItem('user'))
-      this.props.setUser(user)
-    }
-  }
 
   render() {
     const { token } = this.props    
     return (
       <div>
-          {!token ? <Signin/> : <Welcome/>}
+          { token === '' ?  <Signin/> : <Welcome/> }
       </div>
     );
   }

@@ -11,7 +11,7 @@ import * as _reviewActions from '../actions/reviewCardActions'
 class ReviewCardsContainer extends React.Component {
   state = {
     cardNumber: 0,
-    revealedAnswer: false
+    revealedAnswer: false,
   }
 
   handleAnswerReveal = () => {
@@ -28,10 +28,9 @@ class ReviewCardsContainer extends React.Component {
       changeInReview(false)
       setReviewCard(null)
     } 
-    
   }
 
-  handleChange = evt => {
+  handleChange = (evt) => {
     const { selectedCard } = this.props
     switch(evt.target.name) {
       case 'right':
@@ -61,15 +60,14 @@ class ReviewCardsContainer extends React.Component {
   }
 
   getRightAnswer = () => {
-    const { selectedCard, cardNumber, reviewCard } = this.props
+    const {  reviewCard } = this.props
     const { rightAnswer, answers } = reviewCard
     return answers[rightAnswer]
   }
 
   render() {
-    // this.currentReview()
     const { revealedAnswer, cardNumber } = this.state
-    const { selectedCard, currentCards, setReviewCard, reviewCard } = this.props
+    const { currentCards, setReviewCard, reviewCard } = this.props
     const { timesAttempted, timesCorrect } = reviewCard
 
     if (currentCards[cardNumber]){ 
@@ -79,9 +77,9 @@ class ReviewCardsContainer extends React.Component {
     return(<>
       <Segment>
         <Segment inverted>
-          <h3>This question has been answered correctly <span>{timesCorrect}</span> out of <span>{timesAttempted}</span> times.</h3>
+          {!!reviewCard.timesAttempted && <h3>This question has been answered correctly <span>{timesCorrect}</span> out of <span>{timesAttempted}</span> times.</h3>}
         </Segment>
-        {!!reviewCard.type !== '' && <ReviewCard reviewCard={reviewCard} revealAnswer={this.handleAnswerReveal}/>}
+        {!!reviewCard.type !== '' && <ReviewCard reviewCard={reviewCard} revealedAnswer={revealedAnswer} revealAnswer={this.handleAnswerReveal}/>}
         { revealedAnswer &&
         <Segment inverted>
         <p>The Answer was: <span>{this.getRightAnswer()} .Were you right or wrong?</span></p>

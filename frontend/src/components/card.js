@@ -26,10 +26,17 @@ const handleDelete = (props, id) => {
 }
 
 const handleEditToggle = (evt, props) => {
+  evt.preventDefault()
   props.selectCard(props.card.id)
-  props.changeCardForm(props.card.id)
-  props.hideForm()
   props.changeFormMode('EDIT')
+  props.handleHideForm(false)
+
+  props.changeCardForm(props.card)
+  // props.hideForm()
+  debugger
+  
+  console.log('nope')
+  
 }
 
 const mapStateToProps = state => {
@@ -40,7 +47,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     selectCard: (id) => dispatch(selectCard(id)),
-    changeCardForm: (id) => dispatch(changeCardForm(id)),
+    // changeCardForm: (id) => dispatch(changeCardForm(id)),
+    changeCardForm: (card) => dispatch(changeCardForm(card)),
     changeFormMode: (mode) => dispatch(base.changeFormMode(mode)),
     deleteCard: (id) => dispatch(deleteCard(id))
   }

@@ -1,13 +1,13 @@
 const initialState = {
-  currentUser: JSON.parse(localStorage.getItem('user')),
-  isAuthed: false,
-  token: '',
+  currentUser: JSON.parse(localStorage.getItem('user')) || {},
+  // isAuthed: false,
+  token: localStorage.token || '',
   activeItem: 'DECKS',
   selectedDeck: {},
   currentDecks: [],
   currentCards: [],
-  browsingDeck: {},
-  browsingCard: {},
+  // browsingDeck: {},
+  // browsingCard: {},
   selectedCard: {},
   deckFormMode: '',
   inReview: false,
@@ -34,7 +34,8 @@ const appReducer = (state = initialState, { type, payload}) => {
       return {...state, currentUser: payload}//, isAuthed: true
     
     case 'LOG_OFF': // needs to be revised with auth
-      return {...initialState, currentUser: {}}
+      localStorage.clear()
+      return {...initialState, currentUser: {}, token: ''}
     
     case 'CHANGE_TAB':
       return {...state, activeItem: payload, currentCards: [], inReview: false}
@@ -99,7 +100,9 @@ const appReducer = (state = initialState, { type, payload}) => {
       return {...state, currentCards: currentCardsClone }
 
     default:
-      return state
+      let currentUser = JSON.parse(localStorage.getItem('user')) || {}
+      let token = localStorage.token || ''
+      return {...state, currentUser, token} //should allow for timeout
   }
 }
 

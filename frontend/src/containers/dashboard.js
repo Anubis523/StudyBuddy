@@ -11,6 +11,7 @@ import ReportContainer from '../containers/reportContainer'
 class Dashboard extends React.Component {
 
   handleChangeTab = (evt) => {
+    evt.preventDefault()
     const { changeTab } = this.props
     changeTab(evt.target.innerText)
     this.handleActiveItem(evt.target.innerText)

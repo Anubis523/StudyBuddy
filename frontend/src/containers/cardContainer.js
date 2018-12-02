@@ -16,6 +16,10 @@ class CardContainer extends React.Component {
     this.setState({ hideForm: !this.state.hideForm})
   }
 
+  handleHideForm = (hideForm) => {
+    this.setState({ hideForm })
+  }
+
   handleAddCardButtonClick = (evt) => {
     this.setState({ hideForm: false })
     this.props.changeFormMode('CREATE')
@@ -27,8 +31,9 @@ class CardContainer extends React.Component {
 
   render(){
     const { hideForm } = this.state
-    const flashCards =  this.props.currentCards.map(card => <Card key={`Card-${card.id}`} hideForm={this.hideForm} card={card}/>)
+    const flashCards =  this.props.currentCards.map(card => <Card key={`Card-${card.id}`} handleHideForm={this.handleHideForm} hideForm={this.hideForm} card={card}/>)
     const { selectedDeck } = this.props
+    console.log('Hide form: ', hideForm)
     return (<>
     
     {!!selectedDeck.id && <h1>Currently In: "<span>{selectedDeck.name}</span>" Deck</h1>}
