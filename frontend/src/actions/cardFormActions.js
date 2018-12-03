@@ -16,7 +16,7 @@ export const selectCard = (cardId) => {
   .then(res => res.json())
   .then(selectedCard => dispatch({type: 'SELECT_CARD', payload: selectedCard}))
 }
-
+// comment to push
 // export const changeCardForm = (cardId) => {
 //   return (dispatch) => fetch(`${BaseURL}/flashCards/${cardId}`)
 //   .then(res => res.json())
