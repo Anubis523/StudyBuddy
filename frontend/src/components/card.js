@@ -32,11 +32,6 @@ const handleEditToggle = (evt, props) => {
   props.handleHideForm(false)
 
   props.changeCardForm(props.card)
-  // props.hideForm()
-  debugger
-  
-  console.log('nope')
-  
 }
 
 const mapStateToProps = state => {
@@ -47,7 +42,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     selectCard: (id) => dispatch(selectCard(id)),
-    // changeCardForm: (id) => dispatch(changeCardForm(id)),
     changeCardForm: (card) => dispatch(changeCardForm(card)),
     changeFormMode: (mode) => dispatch(base.changeFormMode(mode)),
     deleteCard: (id) => dispatch(deleteCard(id))

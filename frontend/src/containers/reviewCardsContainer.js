@@ -72,10 +72,12 @@ class ReviewCardsContainer extends React.Component {
 
     if (currentCards[cardNumber]){ 
       setReviewCard(currentCards[cardNumber])
+    } else {
+      // setReviewCard(null) //*NOTE: add a default empty card here!!
     }
 
-    return(<>
-      <Segment>
+    return(
+      <>
         <Segment inverted>
           {!!reviewCard.timesAttempted && <h3>This question has been answered correctly <span>{timesCorrect}</span> out of <span>{timesAttempted}</span> times.</h3>}
         </Segment>
@@ -88,8 +90,7 @@ class ReviewCardsContainer extends React.Component {
               <Button onClick={this.handleChange} name='wrong' color='red' type='button'>Wrong?</Button>
             </Button.Group>
           </Segment>}
-      </Segment> 
-    </>)
+      </>)
   }
 }
 const mapStateToProps = state => {

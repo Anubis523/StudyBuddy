@@ -1,13 +1,10 @@
 const initialState = {
   currentUser: JSON.parse(localStorage.getItem('user')) || {},
-  // isAuthed: false,
   token: localStorage.token || '',
   activeItem: 'DECKS',
   selectedDeck: {},
   currentDecks: [],
   currentCards: [],
-  // browsingDeck: {},
-  // browsingCard: {},
   selectedCard: {},
   deckFormMode: '',
   inReview: false,
@@ -16,6 +13,17 @@ const initialState = {
 
 const appReducer = (state = initialState, { type, payload}) => {
   switch (type) {
+    case 'UPDATE_CURRENT_CARDS': //provide logic in the action!!
+      let currentCards = [...state.currentCards]
+      currentCards = currentCards.map(card => {
+        if (payload.id === card.id) {
+          return payload
+        } else {
+          return card
+        }
+      })
+      return {...state, currentCards}
+
     case 'CHANGE_DECK_FORM_MODE':
       return {...state, deckFormMode: payload}
 
@@ -31,9 +39,9 @@ const appReducer = (state = initialState, { type, payload}) => {
     case 'SET_USER':
     case 'NEW_USER':
     case 'CHANGE_USER':
-      return {...state, currentUser: payload}//, isAuthed: true
+      return {...state, currentUser: payload}
     
-    case 'LOG_OFF': // needs to be revised with auth
+    case 'LOG_OFF': 
       localStorage.clear()
       return {...initialState, currentUser: {}, token: ''}
     

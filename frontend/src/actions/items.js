@@ -122,6 +122,10 @@ export const changeDeckFormMode  = (mode) => {
   return (dispatch) => dispatch({ type: 'CHANGE_DECK_FORM_MODE', payload: mode})
 }
 
+export const updateCurrentCards = (diffCard) => {
+  return (dispatch) => dispatch({ type: 'UPDATE_CURRENT_CARDS', payload: diffCard})
+}
+
 // export const changeToken = token => {
 //   return (dispatch) => dispatch({ type: 'CHANGE_TOKEN', payload: token })
 // } 

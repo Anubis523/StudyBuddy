@@ -11,7 +11,6 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { BrowserRouter as Router, Route} from 'react-router-dom'
 
 const middleWare = applyMiddleware(thunk)
 
@@ -24,9 +23,7 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer, composeWithDevTools(middleWare))
 ReactDOM.render(
 <Provider store={store}>
-  <Router>
-    <Route exact path='/' component={App} />
-  </Router>
+  <App/>
 </Provider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

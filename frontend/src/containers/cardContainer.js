@@ -33,18 +33,15 @@ class CardContainer extends React.Component {
     const { hideForm } = this.state
     const flashCards =  this.props.currentCards.map(card => <Card key={`Card-${card.id}`} handleHideForm={this.handleHideForm} hideForm={this.hideForm} card={card}/>)
     const { selectedDeck } = this.props
-    console.log('Hide form: ', hideForm)
     return (<>
     
     {!!selectedDeck.id && <h1>Currently In: "<span>{selectedDeck.name}</span>" Deck</h1>}
     {!hideForm && <CardFormContainer hideForm={this.hideForm}/>}
-      <Segment>
         {hideForm && <>
           <Button  color='blue' disabled={!this.props.selectedDeck.id} onClick={this.handleAddCardButtonClick}>Add Card</Button>
           <Button color='pink' type='button' onClick={this.handleCancel}>Cancel / Back</Button>
           {flashCards}
         </>}
-      </Segment>
   </>)}
 }
 

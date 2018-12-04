@@ -15,11 +15,12 @@ class CardFormContainer extends React.Component {
 
   handleSubmit = (evt) => {
     evt.preventDefault()
-    const { formMode, selectedCard, selectedDeck, addCard, editCard } = this.props
+    const { formMode, selectedCard, selectedDeck, addCard, editCard, updateCurrentCards } = this.props
     if ( formMode === 'CREATE') {
       addCard(selectedDeck.id, selectedCard)
     } else if (formMode === 'EDIT'){
       editCard(selectedCard.id, selectedCard)
+      updateCurrentCards(selectedCard)
     }
     this.handleCancel()
   }
@@ -33,7 +34,7 @@ class CardFormContainer extends React.Component {
       this.props.changeAnswerOne('True')
       this.props.changeAnswerTwo('False')
     }
-    // needs logic that resets the form on each change
+    // resets form
     if (this.props.type !== evt.target.innerText){
       this.props.resetForm()
       this.props.changeType(evt.target.innerText)
@@ -125,6 +126,7 @@ const mapDispatchToProps = dispatch => {
     editCard: (cardId, cardBody) => {dispatch(cardActions.editCard(cardId, cardBody))},
     changeType: (type) => dispatch(changeType(type)),
     resetForm: () => dispatch(resetForm()),
+    updateCurrentCards: (editedCard) => dispatch(base.updateCurrentCards(editedCard)),
     changeAnswerOne: (answer) => dispatch(changeAnswerOne(answer)),
     changeAnswerTwo: (answer) => dispatch(changeAnswerTwo(answer)),
     changeRightAnswer: (rightAnswer) => dispatch(changeRightAnswer(parseInt(rightAnswer))),

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Segment, Button } from 'semantic-ui-react'
+import { Segment, Button, Container, Divider } from 'semantic-ui-react'
 import * as _actions from '../actions/items'
 import DeckListing from '../components/deckListing'
 import AddDeckForm from '../components/forms/addDeckForm'
@@ -26,6 +26,7 @@ class DeckContainer extends React.Component {
 
   handleAddDeckButton = () => {
     this.props.changeDeckFormMode('ADD')
+    this.props.selectDeck({name: "", description: ""})
     this.toggleDeckFormVisiblity()
   }
   render() {
@@ -54,7 +55,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getDecks: (userId) => dispatch(_actions.getDecks(userId)),
-    changeDeckFormMode: (mode) => dispatch(_actions.changeDeckFormMode(mode))
+    changeDeckFormMode: (mode) => dispatch(_actions.changeDeckFormMode(mode)),
+    selectDeck: (deck) => dispatch(_actions.selectDeck(deck))
   }
 }
 

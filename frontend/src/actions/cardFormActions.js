@@ -1,4 +1,5 @@
-const BaseURL = 'http://localhost:3001'
+const BaseURL = 'http://localhost:3001' // *NOTE: to be changed when deployed, to env Variable
+
 export const addCard = (deckId, cardBody) => {
   return (dispatch) => fetch(`${BaseURL}/decks/${deckId}/flashCards`, {
     method: 'POST',

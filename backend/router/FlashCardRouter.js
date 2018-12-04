@@ -2,21 +2,10 @@
              router = express.Router(),
 flashCardController = require('../controllers/FlashCardController')
 
-router
-  .route('/')
-  .all((req, res, next) => {
-    next()
-  })
-  .get((req, res) => {
-    flashCardController.index()
-    .then(flashCards => res.json(flashCards))
-  })
-
 router.patch('/:id/checkAnswer', (req, res) => {
   flashCardController.checkAnswers(req.params.id, req.body.right)
   .then(flashCard => res.json(flashCard))
 })
-
 
 router
   .route('/:id')
@@ -38,4 +27,13 @@ router
     .then(all => res.json(all))
   })
 
+  router
+    .route('/')
+    .all((req, res, next) => {
+      next()
+    })
+    .get((req, res) => {
+      flashCardController.index()
+      .then(flashCards => res.json(flashCards))
+    })
 module.exports = router

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Menu, Segment } from 'semantic-ui-react'
+import { Container, Menu, Segment, Divider } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import { connect } from 'react-redux'
 import { getDecks, getDecksCards, changeTab } from '../actions/items'
@@ -42,7 +42,8 @@ class Dashboard extends React.Component {
   render(){
     const { activeItem } = this.props
     return(
-      <Segment>
+      <>
+        <Divider/>
         <Menu attached="top" tabular>
           <Menu.Item name='DECKS' active={activeItem === 'DECKS' || activeItem === 'CARDS'} onClick={this.handleChangeTab}/>
           <Menu.Item name='REVIEW' active={activeItem === 'REVIEW'} onClick={this.handleChangeTab}/>
@@ -50,7 +51,7 @@ class Dashboard extends React.Component {
         </Menu>
 
           {this.handleActiveItem(activeItem)}
-      </Segment>
+      </>
     )}
   }
 

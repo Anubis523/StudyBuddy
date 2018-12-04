@@ -20,11 +20,9 @@ const DeckReviewItem = props => {
 const handleClick = (evt, props) => {
   evt.preventDefault()
   props.selectDeck(props.deck)
-  debugger
   let id = props.deck.id
   props.getDecksCards(id)
   props.changeInReview(true)
-  // debugger
 } 
 
 const mapDispatchToProps = dispatch => {
